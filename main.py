@@ -12,7 +12,7 @@ class IArithmeticsDiff:
 class IArithmeticsMult:
     def Multiplication(self, A: float, B: float) -> float:
         pass
- 
+#3rd comment
 class IArithmeticsDiv:
     def Division(self, A: float, B: float) -> float:
         pass
