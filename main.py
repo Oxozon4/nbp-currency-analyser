@@ -1,18 +1,29 @@
 print("Semafor. Oxozon4 - scrum master, developer")
-# kom1
 
+# kom1
+#1st comment
 class IArithmeticsAdd:
-    def Addition(self, A:float, B:float)->float:
+    def Addition(self, A: float, B: float) -> float:
         pass
-#kom2
+
+#kom2    
+#kom3
+#2nd comment
+#comment1
+#Comment 
 class IArithmeticsDiff:
     def Difference(self, A: float, B: float) -> float:
         pass
-#kom3
+
+#comment2
 class IArithmeticsMult:
     def Multiplication(self, A: float, B: float) -> float:
         pass
- 
+
+#3rd comment
+#comment3
+# Comment two
+#  Comment One
 class IArithmeticsDiv:
     def Division(self, A: float, B: float) -> float:
         pass
