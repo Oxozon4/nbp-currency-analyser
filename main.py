@@ -11,6 +11,7 @@ class IArithmeticsDiff:
         pass
 
 
+# Comment two
 class IArithmeticsMult:
     def Multiplication(self, A: float, B: float) -> float:
         pass
