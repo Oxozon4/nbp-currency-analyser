@@ -1,6 +1,6 @@
 print("Semafor. Oxozon4 - scrum master, developer")
 
-
+# Kamil commit
 class IArithmeticsAdd:
     def Addition(self, A:float, B:float)->float:
         pass
