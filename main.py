@@ -6,6 +6,7 @@ class IArithmeticsAdd:
         pass
 
 
+# Comment 3
 class IArithmeticsDiff:
     def Difference(self, A: float, B: float) -> float:
         pass
