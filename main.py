@@ -9,6 +9,11 @@ class IArithmeticsDiff:
     def Difference(self, A: float, B: float) -> float:
         pass
 
+
+class IArithmeticsDiff:
+    def Difference(self, A: float, B: float) -> float:
+        pass
+#comment2
 class IArithmeticsMult:
     def Multiplication(self, A: float, B: float) -> float:
         pass
