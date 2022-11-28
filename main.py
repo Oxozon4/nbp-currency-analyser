@@ -18,6 +18,7 @@ class IArithmeticsDiff:
 class IArithmeticsMult:
     def Multiplication(self, A: float, B: float) -> float:
         pass
+ #comment3
 
 class IArithmeticsDiv:
     def Division(self, A: float, B: float) -> float:
