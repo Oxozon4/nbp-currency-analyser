@@ -5,12 +5,22 @@ class IArithmeticsAdd:
     def Addition(self, A: float, B: float) -> float:
         pass
 
+#comment1
 
-# Comment 3
+# Comment 
 class IArithmeticsDiff:
     def Difference(self, A: float, B: float) -> float:
         pass
 
+
+class IArithmeticsDiff:
+    def Difference(self, A: float, B: float) -> float:
+        pass
+#comment2
+class IArithmeticsMult:
+    def Multiplication(self, A: float, B: float) -> float:
+        pass
+ #comment3
 
 # Comment two
 class IArithmeticsMult:
