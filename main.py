@@ -13,6 +13,8 @@ class IArithmeticsMult:
     def Multiplication(self, A: float, B: float) -> float:
         pass
  # Jakub commit
+ # Przemek commit
 class IArithmeticsDiv:
     def Division(self, A: float, B: float) -> float:
         pass
+#comment
