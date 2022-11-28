@@ -1,5 +1,5 @@
 print("Semafor. Oxozon4 - scrum master, developer")
-
+# kom1
 
 class IArithmeticsAdd:
     def Addition(self, A:float, B:float)->float:
