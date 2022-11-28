@@ -1,11 +1,13 @@
 print("Semafor. Oxozon4 - scrum master, developer")
 
+# kom1
 #1st comment
 class IArithmeticsAdd:
     def Addition(self, A: float, B: float) -> float:
         pass
 
-
+#kom2    
+#kom3
 #2nd comment
 #comment1
 #Comment 
