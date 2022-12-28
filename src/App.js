@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 
 function App() {
-  const [exchangeRate, setExchangeRate] = useState(0);
+  const [currency, setCurrency] = useState("usd");
+  const [days, setDays] = useState(7);
+  const [currencyValue, setCurrencyValue] = useState(0);
+  const [apiResponseData, setApiResponseData] = useState(0);
 
-  async function getExchangeRate() {
-    const response = await fetch(
-      "https://api.nbp.pl/api/exchangerates/rates/a/usd/last/7"
-    );
+  const url = `https://api.nbp.pl/api/exchangerates/rates/a/${currency}/last/${days}`;
+  async function getCurrencyData() {
+    const response = await fetch(url);
     const data = await response.json();
-    setExchangeRate(data.rates[0].mid);
+    setApiResponseData(data);
+    setCurrencyValue(data.rates[0].mid);
   }
 
+  // onload
   useEffect(() => {
-    getExchangeRate();
+    getCurrencyData();
   }, []);
-
-  console.log(exchangeRate);
+  console.log(apiResponseData);
 
   return (
     <div className="App">
@@ -29,7 +31,9 @@ function App() {
       >
         API NBP
       </a>
-      <div>Aktualny kurs dolara: {exchangeRate} zł</div>
+      <div>
+        Aktualny kurs {currency}: {currencyValue} zł
+      </div>
     </div>
   );
 }
