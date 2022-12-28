@@ -12,7 +12,7 @@ function App() {
     const response = await fetch(url);
     const data = await response.json();
     setApiResponseData(data);
-    setCurrencyValue(data.rates[0].mid);
+    setCurrencyValue(data.rates[days - 1].mid);
   }
 
   // onload
