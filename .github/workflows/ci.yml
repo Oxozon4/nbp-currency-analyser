@@ -1,10 +1,8 @@
 name: Continuous Integration
 
 on:
-  push:
-    branches: "ci-config"
   pull_request:
-    branches: "ci-config"
+    branches: "**"
 
 jobs:
   build:
