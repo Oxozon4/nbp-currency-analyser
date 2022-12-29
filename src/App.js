@@ -7,7 +7,7 @@ function App() {
   const [currencyValue, setCurrencyValue] = useState(0);
   const [apiResponseData, setApiResponseData] = useState(0);
 
-  const url = `https://api.nbp.pl/api/exchangerates/rates/a/${currency}/last/${days}`;
+  const url = `//api.nbp.pl/api/exchangerates/rates/a/${currency}/last/${days}`;
   async function getCurrencyData() {
     const response = await fetch(url);
     const data = await response.json();
