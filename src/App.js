@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
-  const [currency, setCurrency] = useState("usd");
-  const [days, setDays] = useState(7);
+  const [currency] = useState("usd");
+  const [days] = useState(7);
   const [currencyValue, setCurrencyValue] = useState(0);
   const [apiResponseData, setApiResponseData] = useState(0);
 
@@ -18,7 +18,7 @@ function App() {
   // onload
   useEffect(() => {
     getCurrencyData();
-  }, []);
+  });
   console.log(apiResponseData);
 
   return (
