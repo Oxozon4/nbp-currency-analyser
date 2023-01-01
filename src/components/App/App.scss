@@ -1,0 +1,9 @@
+@import "../../assets/styles/globalStyles.scss";
+
+.app {
+  text-align: center;
+
+  .app-link {
+    color: map-get($colors, "link");
+  }
+}
