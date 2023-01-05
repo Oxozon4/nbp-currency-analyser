@@ -5,23 +5,21 @@ const Tabs = ({ setIsLoading }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const [timeInterval, setTimeInterval] = useState(7);
   const [currencyCode] = useState("USD");
-  const [days] = useState(7);
   const [currencyValue, setCurrencyValue] = useState(0);
   const [apiResponseData, setApiResponseData] = useState(null);
-  const url = `//api.nbp.pl/api/exchangerates/rates/a/${currencyCode}/last/${days}`;
+  const url = `//api.nbp.pl/api/exchangerates/rates/a/${currencyCode}/last/${timeInterval}`;
 
-  // onload
   useEffect(() => {
     const getCurrencyData = async () => {
       const response = await fetch(url);
       const data = await response.json();
       setApiResponseData(data);
-      setCurrencyValue(data.rates[days - 1].mid);
+      setCurrencyValue(data.rates[timeInterval - 1].mid);
       setIsLoading(false);
     };
     setIsLoading(true);
     getCurrencyData();
-  }, [days, setIsLoading, url]);
+  }, [timeInterval, setIsLoading, url]);
 
   useEffect(() => {
     if (apiResponseData) {
