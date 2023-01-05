@@ -4,11 +4,11 @@ import "./Tabs.scss";
 const Tabs = ({ setIsLoading }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const [timeInterval, setTimeInterval] = useState(7);
-  const [currency] = useState("USD");
+  const [currencyCode] = useState("USD");
   const [days] = useState(7);
   const [currencyValue, setCurrencyValue] = useState(0);
   const [apiResponseData, setApiResponseData] = useState(null);
-  const url = `//api.nbp.pl/api/exchangerates/rates/a/${currency}/last/${days}`;
+  const url = `//api.nbp.pl/api/exchangerates/rates/a/${currencyCode}/last/${days}`;
 
   // onload
   useEffect(() => {
@@ -60,7 +60,7 @@ const Tabs = ({ setIsLoading }) => {
         }`}
       >
         <div>
-          Aktualny kurs {currency}: {currencyValue} zł
+          Aktualny kurs {currencyCode}: {currencyValue} zł
         </div>
         <div>
           <label htmlFor="time-interval-selector">
