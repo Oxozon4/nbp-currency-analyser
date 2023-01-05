@@ -30,7 +30,18 @@ const Tabs = () => {
           tabIndex === 0 ? 'tabs-content_active' : ''
         }`}
       >
-        Tab 1 content
+        Tab 1 content1
+        <div>
+      <label htmlFor="time-period-selector">Wybierz przedział czasowy:</label>
+      <select id="time-period-selector">
+        <option value="7">1 tydzień</option>
+        <option value="14">2 tygodnie</option>
+        <option value="30">1 miesiąc</option>
+        <option value="90">1 kwartał</option>
+        <option value="180">pół roku</option>
+        <option value="365">1 rok</option>
+      </select>
+    </div>
       </div>
       <div
         data-testid="tab-content2"
