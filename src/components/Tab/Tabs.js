@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import "./Tabs.scss";
+import SelectCurrency from '../SelectCurrency/SelectCurrency';
+import './Tabs.scss';
 
 const Tabs = ({ setIsLoading }) => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -7,6 +8,7 @@ const Tabs = ({ setIsLoading }) => {
   const [currencyCode] = useState("USD");
   const [currencyValue, setCurrencyValue] = useState(0);
   const [apiResponseData, setApiResponseData] = useState(null);
+  const [selectedCurrency, setSelectedCurrency] = useState('USD');
   // const url = `//api.nbp.pl/api/exchangerates/rates/a/${currencyCode}/{today-timeInterval}/{today}/`;
   const url = `//api.nbp.pl/api/exchangerates/rates/a/${currencyCode}/last/${timeInterval}`;
 
@@ -84,6 +86,12 @@ const Tabs = ({ setIsLoading }) => {
             <option value="365">1 rok</option>
           </select>
         </div>
+        {/* Tab 1 content */}
+        <SelectCurrency
+          name="select-currency"
+          value={selectedCurrency}
+          onChange={setSelectedCurrency}
+        />
       </div>
       <div
         data-testid="tab-content2"
@@ -91,7 +99,7 @@ const Tabs = ({ setIsLoading }) => {
           tabIndex === 1 ? "tabs-content_active" : ""
         }`}
       >
-        Tab 2 content
+        {/* Tab 2 content */}
       </div>
     </div>
   );
