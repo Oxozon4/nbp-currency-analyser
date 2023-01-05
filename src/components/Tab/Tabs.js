@@ -7,6 +7,7 @@ const Tabs = ({ setIsLoading }) => {
   const [currencyCode] = useState("USD");
   const [currencyValue, setCurrencyValue] = useState(0);
   const [apiResponseData, setApiResponseData] = useState(null);
+  // const url = `//api.nbp.pl/api/exchangerates/rates/a/${currencyCode}/{today-timeInterval}/{today}/`;
   const url = `//api.nbp.pl/api/exchangerates/rates/a/${currencyCode}/last/${timeInterval}`;
 
   useEffect(() => {
@@ -24,12 +25,19 @@ const Tabs = ({ setIsLoading }) => {
   useEffect(() => {
     if (apiResponseData) {
       console.log(apiResponseData);
+      getDate();
     }
   }, [apiResponseData]);
 
   useEffect(() => {
     console.log(timeInterval);
   }, [timeInterval]);
+
+  const getDate = () => {
+    let today = new Date();
+    let dateString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    console.log(dateString);
+  }
 
   return (
     <div className="tabs">
