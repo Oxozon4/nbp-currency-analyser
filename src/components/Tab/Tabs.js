@@ -3,6 +3,7 @@ import './Tabs.scss';
 
 const Tabs = () => {
   const [tabIndex, setTabIndex] = useState(0);
+  const [timeInterval, setTimeInterval] = useState(7);
 
   function handleChange(event) {
     console.log(event.target.value);
