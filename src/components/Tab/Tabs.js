@@ -35,8 +35,8 @@ const Tabs = () => {
       >
         Tab 1 content1
         <div>
-      <label htmlFor="time-period-selector">Wybierz przedział czasowy:</label>
-      <select id="time-period-selector" onChange={handleChange}>
+      <label htmlFor="time-interval-selector">Wybierz przedział czasowy:</label>
+      <select id="time-interval-selector" onChange={handleChange}>
         <option value="7">1 tydzień</option>
         <option value="14">2 tygodnie</option>
         <option value="30">1 miesiąc</option>
