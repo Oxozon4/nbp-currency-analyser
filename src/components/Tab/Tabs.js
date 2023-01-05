@@ -4,6 +4,9 @@ import './Tabs.scss';
 const Tabs = () => {
   const [tabIndex, setTabIndex] = useState(0);
 
+  function handleChange(event) {
+    console.log(event.target.value);
+  }
   return (
     <div className="tabs">
       <div className="tabs-list">
@@ -33,7 +36,7 @@ const Tabs = () => {
         Tab 1 content1
         <div>
       <label htmlFor="time-period-selector">Wybierz przedział czasowy:</label>
-      <select id="time-period-selector">
+      <select id="time-period-selector" onChange={handleChange}>
         <option value="7">1 tydzień</option>
         <option value="14">2 tygodnie</option>
         <option value="30">1 miesiąc</option>
