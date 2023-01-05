@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import "./Tabs.scss";
+import SelectCurrency from '../SelectCurrency/SelectCurrency';
+import './Tabs.scss';
 
 const Tabs = ({ setIsLoading }) => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -7,10 +8,21 @@ const Tabs = ({ setIsLoading }) => {
   const [currencyCode] = useState("USD");
   const [currencyValue, setCurrencyValue] = useState(0);
   const [apiResponseData, setApiResponseData] = useState(null);
+  const [selectedCurrency, setSelectedCurrency] = useState('USD');
   // const url = `//api.nbp.pl/api/exchangerates/rates/a/${currencyCode}/{today-timeInterval}/{today}/`;
   const url = `//api.nbp.pl/api/exchangerates/rates/a/${currencyCode}/last/${timeInterval}`;
 
   useEffect(() => {
+    const setDates = () => {
+      const today = new Date();
+      const todayDateString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+      console.log(`Today: ${todayDateString}`);
+      
+      const previousDate = new Date(today.setDate(today.getDate() - timeInterval));
+      const previousDateString = `${previousDate.getFullYear()}-${String(previousDate.getMonth() + 1).padStart(2, '0')}-${String(previousDate.getDate()).padStart(2, '0')}`;
+      console.log(`PreviousDate: ${previousDateString}`);
+    }
+
     const getCurrencyData = async () => {
       const response = await fetch(url);
       const data = await response.json();
@@ -19,13 +31,13 @@ const Tabs = ({ setIsLoading }) => {
       setIsLoading(false);
     };
     setIsLoading(true);
+    setDates();
     getCurrencyData();
   }, [timeInterval, setIsLoading, url]);
 
   useEffect(() => {
     if (apiResponseData) {
       console.log(apiResponseData);
-      getDate();
     }
   }, [apiResponseData]);
 
@@ -33,11 +45,6 @@ const Tabs = ({ setIsLoading }) => {
     console.log(timeInterval);
   }, [timeInterval]);
 
-  const getDate = () => {
-    let today = new Date();
-    let dateString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-    console.log(dateString);
-  }
 
   return (
     <div className="tabs">
@@ -84,6 +91,12 @@ const Tabs = ({ setIsLoading }) => {
             <option value="365">1 rok</option>
           </select>
         </div>
+        {/* Tab 1 content */}
+        <SelectCurrency
+          name="select-currency"
+          value={selectedCurrency}
+          onChange={setSelectedCurrency}
+        />
       </div>
       <div
         data-testid="tab-content2"
@@ -91,7 +104,7 @@ const Tabs = ({ setIsLoading }) => {
           tabIndex === 1 ? "tabs-content_active" : ""
         }`}
       >
-        Tab 2 content
+        {/* Tab 2 content */}
       </div>
     </div>
   );
