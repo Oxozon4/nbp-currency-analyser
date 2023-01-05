@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useState , useEffect} from 'react';
 import './Tabs.scss';
 
 const Tabs = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [timeInterval, setTimeInterval] = useState(7);
+
+  useEffect(() => {
+    console.log(timeInterval);
+  }, [timeInterval]);
 
   return (
     <div className="tabs">
