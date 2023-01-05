@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import SelectCurrency from '../SelectCurrency/SelectCurrency';
 import './Tabs.scss';
 
 const Tabs = () => {
   const [tabIndex, setTabIndex] = useState(0);
+  const [selectedCurrency, setSelectedCurrency] = useState('USD');
 
   return (
     <div className="tabs">
@@ -30,7 +32,12 @@ const Tabs = () => {
           tabIndex === 0 ? 'tabs-content_active' : ''
         }`}
       >
-        Tab 1 content
+        {/* Tab 1 content */}
+        <SelectCurrency
+          name="select-currency"
+          value={selectedCurrency}
+          onChange={setSelectedCurrency}
+        />
       </div>
       <div
         data-testid="tab-content2"
@@ -38,7 +45,7 @@ const Tabs = () => {
           tabIndex === 1 ? 'tabs-content_active' : ''
         }`}
       >
-        Tab 2 content
+        {/* Tab 2 content */}
       </div>
     </div>
   );

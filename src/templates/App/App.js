@@ -23,6 +23,7 @@ const App = () => {
       setCurrencyValue(data.rates[days - 1].mid);
       setIsLoading(false);
     };
+
     setIsLoading(true);
     getCurrencyData();
   }, [days, url]);
