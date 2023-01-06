@@ -222,11 +222,11 @@ const Tabs = ({ setIsLoading }) => {
             <td>Współczynnik zmienności</td>
           </tr>
           <tr className='table-values'>
-            <td id="days"></td>
-            <td id="median">Column 2, Row 2</td>
-            <td id="dominant">Column 3, Row 2</td>
-            <td id="standard-deviation">Column 4, Row 2</td>
-            <td id ="coefficient-of-variation">Column 5, Row 2</td>
+            <td id="days">Fetching data...</td>
+            <td id="median">Fetching data...</td>
+            <td id="dominant">Fetching data...</td>
+            <td id="standard-deviation">Fetching data...</td>
+            <td id ="coefficient-of-variation">Fetching data...</td>
           </tr>
         </table>
 
