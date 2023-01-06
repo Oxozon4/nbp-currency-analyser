@@ -106,6 +106,14 @@ const Tabs = ({ setIsLoading }) => {
         }
         return dominant;
       }
+
+      const standardDeviation = (array) => {
+        const mean = array.reduce((a, b) => a + b) / array.length;
+        const squaredDifferences = array.map(x => Math.pow(x - mean, 2));
+        const squaredDifferencesSum = squaredDifferences.reduce((a, b) => a + b);
+        return Math.sqrt(squaredDifferencesSum / array.length);
+      }
+
       let cell;
       let value;
       const medianValue = median(medianTab);
@@ -118,6 +126,9 @@ const Tabs = ({ setIsLoading }) => {
       const dominant = findDominant(medianTab);
       cell = document.getElementById('dominata');
       value = dominant;
+      cell.textContent = value;
+      cell = document.getElementById('odchylenie');
+      value = standardDeviation(medianTab);
       cell.textContent = value;
 
 
@@ -202,7 +213,7 @@ const Tabs = ({ setIsLoading }) => {
             <td id="days"></td>
             <td id="mediana">Column 2, Row 2</td>
             <td id="dominata">Column 3, Row 2</td>
-            <td>Column 4, Row 2</td>
+            <td id="odchylenie">Column 4, Row 2</td>
             <td>Column 5, Row 2</td>
           </tr>
         </table>
