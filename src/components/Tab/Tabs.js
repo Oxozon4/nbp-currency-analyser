@@ -158,36 +158,36 @@ const Tabs = ({ setIsLoading }) => {
         className={`tabs-content ${tabIndex === 0 ? 'tabs-content_active' : ''
           }`}
       >
-        <div>
+        <div className="search-bar">
+          <div className="time-interval-div">
+            <label htmlFor="time-interval-selector">Przedział czasowy:</label>
+            <select
+              id="time-interval-selector"
+              onChange={(e) => setTimeInterval(e.target.value)}
+            >
+              <option value="7">1 tydzień</option>
+              <option value="14">2 tygodnie</option>
+              <option value="30">1 miesiąc</option>
+              <option value="90">1 kwartał</option>
+              <option value="180">pół roku</option>
+              <option value="365">1 rok</option>
+            </select>
+          </div>
+          <SelectCurrency
+            name="select-currency"
+            value={selectedCurrency}
+            onChange={setSelectedCurrency}
+          />
+          <button
+            onClick={(e) => getCurrencyData(e)}
+            className="tab-content1-button"
+          >
+            Szukaj
+          </button>
+        </div>
+        <div style={{ marginBottom: '20px' }}>
           Aktualny kurs {currencyCode}: {currencyValue} zł
         </div>
-        <div>
-          <label htmlFor="time-interval-selector">
-            Wybierz przedział czasowy:
-          </label>
-          <select
-            id="time-interval-selector"
-            onChange={(e) => setTimeInterval(e.target.value)}
-          >
-            <option value="7">1 tydzień</option>
-            <option value="14">2 tygodnie</option>
-            <option value="30">1 miesiąc</option>
-            <option value="90">1 kwartał</option>
-            <option value="180">pół roku</option>
-            <option value="365">1 rok</option>
-          </select>
-        </div>
-        <SelectCurrency
-          name="select-currency"
-          value={selectedCurrency}
-          onChange={setSelectedCurrency}
-        />
-        <button
-          onClick={(e) => getCurrencyData(e)}
-          className="tab-content1-button"
-        >
-          Oblicz
-        </button>
         <CurrencyBarChart data={chartData} />
         tabela wyników
         <table>

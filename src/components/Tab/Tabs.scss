@@ -13,7 +13,7 @@
     .tabs-list-header {
       width: 100%;
       padding: 20px;
-      font-size: 1.25rem;
+      font-size: map-get($font-sizes, "md");
       font-weight: bold;
       text-align: center;
       margin-bottom: 15px;
@@ -35,6 +35,23 @@
     color: map-get($colors, "secondary");
     display: none;
 
+    button {
+      background-color: map-get($colors, "primary");
+      width: 140px;
+      height: 40px;
+      padding: 0px 15px;
+      border-radius: 50px;
+      font-weight: 600;
+      color: map-get($colors, "black");
+      letter-spacing: 0.08em;
+      border: none;
+    }
+
+    button:hover {
+      cursor: pointer;
+      opacity: 0.8;
+    }
+
 
     &.tabs-content_active {
       display: flex;
@@ -43,22 +60,48 @@
       justify-content: center;
     }
 
-    .tab-content1-button {
-      margin: 20px;
-      height: 40px;
+    .search-bar {
+      display: flex;
+      align-items: flex-end;
+      margin: 0 0 2rem;
+
+      .time-interval-div {
+        display: flex;
+        flex-direction: column;
+        label {
+          font-size: map-get($font-sizes, "sm");
+          font-weight: bold;
+          margin: 5px 0;
+          letter-spacing: 0.06em;
+        }
+      }
+  
+      #time-interval-selector {
+        width: 240px;
+        height: 40px;
+        padding: 5px 10px;
+        font-family: Helvetica, sans-serif;
+        font-weight: 300;
+        font-size: map-get($font-sizes , "md");
+        border: 1px solid #aaa;
+        border-radius: 50px 0 0 50px;
+        text-align: center;
+  
+      }
+  
+      #time-interval-selector:hover {
+        border: 2px solid map-get($colors, "primary");
+        padding: 4px 9px;
+        cursor: pointer;
+      }
+
+      button {
+        border-radius: 0 50px 50px 0;
+        width: 240px;
+        font-size: map-get($font-sizes , "md");
+      }
     }
 
-    #time-interval-selector{
-      padding: 5px;
-      border: 3px solid map-get($colors, "black");
-      cursor: pointer;
-      color: map-get($colors, "black");
-      border-radius: 5px;
-
-    }
-    #time-interval-selector:hover {
-      border-color: map-get($colors, "primary");
-    }
     table {
       border-collapse: collapse;
       width: 70%;

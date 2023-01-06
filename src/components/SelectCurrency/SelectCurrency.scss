@@ -1,16 +1,24 @@
+@import "../../assets/styles/globalStyles.scss";
+
 .react-autosuggest__container {
   position: relative;
 }
 
 .react-autosuggest__input {
-  width: 280px;
-  height: 30px;
+  width: 198px;
+  height: 18px;
   padding: 10px 20px;
   font-family: Helvetica, sans-serif;
   font-weight: 300;
-  font-size: 16px;
+  font-size: map-get($font-sizes , "md");
   border: 1px solid #aaa;
-  border-radius: 4px;
+  text-align: center;
+}
+
+.react-autosuggest__input:hover {
+  border: 2px solid map-get($colors, "primary");
+  padding: 9px 19px;
+  cursor: pointer;
 }
 
 .react-autosuggest__input--focused {
@@ -66,8 +74,9 @@
   display: flex;
   flex-direction: column;
   label {
-  font-size: 14pt;
+    font-size: map-get($font-sizes, "sm");
     font-weight: bold;
-    margin: 10px 0;
+    margin: 5px 0;
+    letter-spacing: 0.06em;
   }
 }

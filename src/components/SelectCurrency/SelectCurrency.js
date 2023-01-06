@@ -88,7 +88,7 @@ const SelectCurrency = ({ onChange, value: selectValue }) => {
 
   return (
     <div className="select-currency">
-      <label>Wybierz walutę</label>
+      <label>Waluta:</label>
       <AutoSuggest
         suggestions={suggestions}
         onSuggestionsFetchRequested={onSuggestionsFetchRequested}
