@@ -1,34 +1,25 @@
 import { useState, useEffect } from "react";
-import SelectCurrency from '../SelectCurrency/SelectCurrency';
-import './Tabs.scss';
+import "./Tabs.scss";
 
 const Tabs = ({ setIsLoading }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const [timeInterval, setTimeInterval] = useState(7);
+  const [currencyCode] = useState("USD");
   const [currencyValue, setCurrencyValue] = useState(0);
   const [apiResponseData, setApiResponseData] = useState(null);
-  const [selectedCurrency, setSelectedCurrency] = useState('USD');
+  const url = `//api.nbp.pl/api/exchangerates/rates/a/${currencyCode}/last/${timeInterval}`;
 
   useEffect(() => {
-    const getUrl = () => {
-      const today = new Date();
-      const todayDateString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-      const previousDate = new Date(today.setDate(today.getDate() - timeInterval));
-      const previousDateString = `${previousDate.getFullYear()}-${String(previousDate.getMonth() + 1).padStart(2, '0')}-${String(previousDate.getDate()).padStart(2, '0')}`;
-      const url = `//api.nbp.pl/api/exchangerates/rates/a/${selectedCurrency}/${previousDateString}/${todayDateString}/`;
-      return url;
-    }
     const getCurrencyData = async () => {
-      const url = getUrl();
       const response = await fetch(url);
       const data = await response.json();
       setApiResponseData(data);
-      setCurrencyValue((data.rates[data.rates.length - 1].mid).toFixed(2));
+      setCurrencyValue(data.rates[timeInterval - 1].mid);
       setIsLoading(false);
     };
     setIsLoading(true);
     getCurrencyData();
-  }, [timeInterval, setIsLoading, selectedCurrency]);
+  }, [timeInterval, setIsLoading, url]);
 
   useEffect(() => {
     if (apiResponseData) {
@@ -39,7 +30,6 @@ const Tabs = ({ setIsLoading }) => {
   useEffect(() => {
     console.log(timeInterval);
   }, [timeInterval]);
-
 
   return (
     <div className="tabs">
@@ -68,7 +58,7 @@ const Tabs = ({ setIsLoading }) => {
         }`}
       >
         <div>
-          Aktualny kurs {selectedCurrency}: {currencyValue} zł
+          Aktualny kurs {currencyCode}: {currencyValue} zł
         </div>
         <div>
           <label htmlFor="time-interval-selector">
@@ -86,12 +76,47 @@ const Tabs = ({ setIsLoading }) => {
             <option value="365">1 rok</option>
           </select>
         </div>
-        {/* Tab 1 content */}
-        <SelectCurrency
-          name="select-currency"
-          value={selectedCurrency}
-          onChange={setSelectedCurrency}
-        />
+        
+  <table>
+    <tr>
+      <td>Column 1, Row 1</td>
+      <td>Column 2, Row 1</td>
+      <td>Column 3, Row 1</td>
+      <td>Column 4, Row 1</td>
+    </tr>
+    <tr>
+      <td>Column 1, Row 2</td>
+      <td>Column 2, Row 2</td>
+      <td>Column 3, Row 2</td>
+      <td>Column 4, Row 2</td>
+    </tr>
+    <tr>
+      <td>Column 1, Row 3</td>
+      <td>Column 2, Row 3</td>
+      <td>Column 3, Row 3</td>
+      <td>Column 4, Row 3</td>
+    </tr>
+    <tr>
+      <td>Column 1, Row 4</td>
+      <td>Column 2, Row 4</td>
+      <td>Column 3, Row 4</td>
+      <td>Column 4, Row 4</td>
+    </tr>
+    <tr>
+      <td>Column 1, Row 5</td>
+      <td>Column 2, Row 5</td>
+      <td>Column 3, Row 5</td>
+      <td>Column 4, Row 5</td>
+    </tr>
+    <tr>
+      <td>Column 1, Row 6</td>
+      <td>Column 2, Row 6</td>
+      <td>Column 3, Row 6</td>
+      <td>Column 4, Row 6</td>
+    </tr>
+  </table>
+
+
       </div>
       <div
         data-testid="tab-content2"
@@ -99,7 +124,7 @@ const Tabs = ({ setIsLoading }) => {
           tabIndex === 1 ? "tabs-content_active" : ""
         }`}
       >
-        {/* Tab 2 content */}
+        Tab 2 content
       </div>
     </div>
   );
