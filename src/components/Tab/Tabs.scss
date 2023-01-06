@@ -114,19 +114,12 @@
       border-collapse: collapse;
       width: 70%;
       border: 2px solid map-get($colors, "primary");
+      text-align: center;
+      padding: 8px;
     }
     
     td {
       padding: 8px;
-      text-align: center;
-    }
-    
-    th {
-      border: 2px solid black;
-      background-color: gray;
-      color: white;
-      padding: 8px;
-      text-align: center;
     }
   }
 }
