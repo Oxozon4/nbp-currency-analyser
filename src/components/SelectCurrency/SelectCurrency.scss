@@ -11,13 +11,14 @@
   font-family: Helvetica, sans-serif;
   font-weight: 300;
   font-size: map-get($font-sizes , "md");
-  border: 1px solid #aaa;
   text-align: center;
+  border: 1px solid map-get($colors, "black");
+  border-right: 1px solid map-get($colors, "grey");
+  border-left: 1px solid map-get($colors, "grey");
 }
 
 .react-autosuggest__input:hover {
-  border: 2px solid map-get($colors, "primary");
-  padding: 9px 19px;
+  background-color: map-get($colors, "lightGrey");
   cursor: pointer;
 }
 

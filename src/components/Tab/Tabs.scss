@@ -79,21 +79,25 @@
         font-family: Helvetica, sans-serif;
         font-weight: 300;
         font-size: map-get($font-sizes , "md");
-        border: 1px solid #aaa;
         border-radius: 50px 0 0 50px;
         text-align: center;
         appearance: none;
-      }
-  
-      #time-interval-selector:hover {
-        border: 2px solid map-get($colors, "primary");
-        padding: 4px 9px;
-        cursor: pointer;
+        border: 1px solid map-get($colors, "black");
+        border-right: none;
+        &:hover {
+          background-color: map-get($colors, "lightGrey");
+          cursor: pointer;
+        }
+        &:focus {
+          outline: none;
+        }
       }
 
       button {
+        border: 1px solid map-get($colors, "black");
+        border-left: none;
         border-radius: 0 50px 50px 0;
-        width: 240px;
+        width: 180px;
         font-size: map-get($font-sizes, "md");
       }
     }
@@ -120,6 +124,7 @@
     
     td {
       padding: 8px;
+      border: 1px solid map-get($colors, "grey");
     }
   }
 }
