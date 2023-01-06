@@ -65,9 +65,7 @@ const Tabs = ({ setIsLoading }) => {
           increases += 1;
         }
       });
-      decreases = 500;
-      increases = 2000;
-      unchanged = 100;
+      
       const newChartsData = {
         name: 'Ilość sesji zmian walutowych',
         Wzrosty: increases,
@@ -155,41 +153,7 @@ const Tabs = ({ setIsLoading }) => {
             <td>Column 4, Row 2</td>
             <td>Column 5, Row 2</td>
           </tr>
-          <tr>
-            <td>2 tygodnie</td>
-            <td>Column 2, Row 3</td>
-            <td>Column 3, Row 3</td>
-            <td>Column 4, Row 3</td>
-            <td>Column 5, Row 3</td>
-          </tr>
-          <tr>
-            <td>1 miesiąc</td>
-            <td>Column 2, Row 4</td>
-            <td>Column 3, Row 4</td>
-            <td>Column 4, Row 4</td>
-            <td>Column 5, Row 4</td>
-          </tr>
-          <tr>
-            <td>1 kwartał</td>
-            <td>Column 2, Row 5</td>
-            <td>Column 3, Row 5</td>
-            <td>Column 4, Row 5</td>
-            <td>Column 5, Row 5</td>
-          </tr>
-          <tr>
-            <td>Pół roku</td>
-            <td>Column 2, Row 6</td>
-            <td>Column 3, Row 6</td>
-            <td>Column 4, Row 6</td>
-            <td>Column 5, Row 6</td>
-          </tr>
-          <tr>
-            <td>Rok</td>
-            <td>Column 2, Row 7</td>
-            <td>Column 3, Row 7</td>
-            <td>Column 4, Row 7</td>
-            <td>Column 5, Row 7</td>
-          </tr>
+          
         </table>
       </div>
       <div
