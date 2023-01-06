@@ -67,66 +67,57 @@ const Tabs = ({ setIsLoading }) => {
       })
       apiResponseData.rates.forEach(({ mid }) => {
         medianTab.push(mid);
-        
+
       });
-      function median(numbers) {
-        // Posortuj tablicę rosnąco
-        numbers.sort(function(a, b) {
+
+      const median = (numbers) => {
+        numbers.sort(function (a, b) {
           return a - b;
         });
-      
-        // Oblicz indeks środkowego elementu
-        var middleIndex = Math.floor(numbers.length / 2);
-      
-        // Jeśli długość tablicy jest nieparzysta, zwróć element pośrodku tablicy
+
+        const middleIndex = Math.floor(numbers.length / 2);
+
         if (numbers.length % 2 !== 0) {
           return numbers[middleIndex];
         }
-        // W przeciwnym razie oblicz średnią arytmetyczną elementów pośrodku tablicy
         else {
           return (numbers[middleIndex - 1] + numbers[middleIndex]) / 2;
         }
       }
-      function findDominant(data) {
-  // Tworzymy obiekt, w którym będziemy trzymać liczbę wystąpień dla każdego elementu
-  var counts = {};
-  // Iterujemy przez tablicę
-  for (var i = 0; i < data.length; i++) {
-    var value = data[i];
-    // Jeśli nie ma jeszcze wpisu dla danego elementu, dodajemy go i ustawiamy na 1
-    if (!counts[value]) {
-      counts[value] = 1;
-    }
-    // W przeciwnym razie zwiększamy liczbę wystąpień o 1
-    else {
-      counts[value]++;
-    }
-  }
-  // Zmienna do przechowywania dominanty
-  var dominant = null;
-  // Zmienna do przechowywania liczby wystąpień dominanty
-  var maxCount = 0;
-  // Iterujemy przez obiekt z liczbą wystąpień
-  for (var key in counts) {
-    // Jeśli liczba wystąpień jest większa niż dotychczasowa maksymalna liczba wystąpień, ustawiamy nową dominantę i nową maksymalną liczbę wystąpień
-    if (counts[key] > maxCount) {
-      dominant = key;
-      maxCount = counts[key];
-    }
-  }
-  // Zwracamy dominantę
-  return dominant;
-}
-      var medianValue = median(medianTab);
-      var cell = document.getElementById('mediana');
-      var value = medianValue;
+
+      const findDominant = (data) => {
+        let counts = {};
+        for (let i = 0; i < data.length; i++) {
+          const value = data[i];
+          if (!counts[value]) {
+            counts[value] = 1;
+          }
+          else {
+            counts[value]++;
+          }
+        }
+        let dominant = null;
+        let maxCount = 0;
+        for (const key in counts) {
+          if (counts[key] > maxCount) {
+            dominant = key;
+            maxCount = counts[key];
+          }
+        }
+        return dominant;
+      }
+      let cell;
+      let value;
+      const medianValue = median(medianTab);
+      cell = document.getElementById('mediana');
+      value = medianValue;
       cell.textContent = value;
-      var cell = document.getElementById('days');
-      var value = timeInterval;
+      cell = document.getElementById('days');
+      value = timeInterval;
       cell.textContent = value;
-      var dominant = findDominant(medianTab);
-      var cell = document.getElementById('dominata');
-      var value = dominant;
+      const dominant = findDominant(medianTab);
+      cell = document.getElementById('dominata');
+      value = dominant;
       cell.textContent = value;
 
 
@@ -148,17 +139,15 @@ const Tabs = ({ setIsLoading }) => {
     <div className="tabs">
       <div className="tabs-list">
         <div
-          className={`tabs-list-header ${
-            tabIndex === 0 ? 'tabs-list-header_active' : ''
-          }`}
+          className={`tabs-list-header ${tabIndex === 0 ? 'tabs-list-header_active' : ''
+            }`}
           onClick={() => setTabIndex(0)}
         >
           Analiza waluty
         </div>
         <div
-          className={`tabs-list-header ${
-            tabIndex === 1 ? 'tabs-list-header_active' : ''
-          }`}
+          className={`tabs-list-header ${tabIndex === 1 ? 'tabs-list-header_active' : ''
+            }`}
           onClick={() => setTabIndex(1)}
         >
           Rozkład zmian par walutowych
@@ -166,9 +155,8 @@ const Tabs = ({ setIsLoading }) => {
       </div>
       <div
         data-testid="tab-content1"
-        className={`tabs-content ${
-          tabIndex === 0 ? 'tabs-content_active' : ''
-        }`}
+        className={`tabs-content ${tabIndex === 0 ? 'tabs-content_active' : ''
+          }`}
       >
         <div>
           Aktualny kurs {currencyCode}: {currencyValue} zł
@@ -204,28 +192,27 @@ const Tabs = ({ setIsLoading }) => {
         tabela wyników
         <table>
           <tr>
-            <td>ilość dni</td>
+            <td>Ilość dni</td>
             <td>Mediana</td>
-            <td>Dominata</td>
+            <td>Dominanta</td>
             <td>Odchylenie standardowe</td>
             <td>Współczynnik zmienności</td>
           </tr>
           <tr>
-            <td id = "days"></td>
-            <td id = "mediana">Column 2, Row 2</td>
-            <td id = "dominata">Column 3, Row 2</td>
+            <td id="days"></td>
+            <td id="mediana">Column 2, Row 2</td>
+            <td id="dominata">Column 3, Row 2</td>
             <td>Column 4, Row 2</td>
             <td>Column 5, Row 2</td>
           </tr>
         </table>
-        
+
       </div >
-      
+
       <div
         data-testid="tab-content2"
-        className={`tabs-content ${
-          tabIndex === 1 ? 'tabs-content_active' : ''
-        }`}
+        className={`tabs-content ${tabIndex === 1 ? 'tabs-content_active' : ''
+          }`}
       >
         Tab 2 content
       </div>
