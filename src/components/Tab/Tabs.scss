@@ -50,14 +50,32 @@
 
     #time-interval-selector{
       padding: 5px;
-      border: 3px solid map-get($colors, "primary");
+      border: 3px solid map-get($colors, "black");
       cursor: pointer;
       color: map-get($colors, "black");
       border-radius: 5px;
 
     }
     #time-interval-selector:hover {
-      border-color: red;
+      border-color: map-get($colors, "primary");
+    }
+    table {
+      border-collapse: collapse;
+      width: 70%;
+    }
+    
+    td {
+      border: 2px solid black;
+      padding: 8px;
+      text-align: center;
+    }
+    
+    th {
+      border: 2px solid black;
+      background-color: gray;
+      color: white;
+      padding: 8px;
+      text-align: center;
     }
   }
 }
