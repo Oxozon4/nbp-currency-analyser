@@ -22,7 +22,6 @@
       white-space: nowrap;
       overflow: hidden;
 
-
       &.tabs-list-header_active {
         border-bottom: 4px solid map-get($colors, "primary");
       }
@@ -86,7 +85,7 @@
         border: 1px solid #aaa;
         border-radius: 50px 0 0 50px;
         text-align: center;
-  
+        appearance: none;
       }
   
       #time-interval-selector:hover {
