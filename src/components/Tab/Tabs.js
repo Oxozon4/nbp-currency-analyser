@@ -23,7 +23,7 @@ const Tabs = ({ setIsLoading }) => {
       const response = await fetch(url);
       const data = await response.json();
       setApiResponseData(data);
-      setCurrencyValue(data.rates[data.rates.length - 1].mid);
+      setCurrencyValue((data.rates[data.rates.length - 1].mid).toFixed(2));
       setIsLoading(false);
     };
     setIsLoading(true);
