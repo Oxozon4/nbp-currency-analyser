@@ -225,8 +225,8 @@ const Tabs = ({ setIsLoading }) => {
             <td id="days"></td>
             <td id="median">Column 2, Row 2</td>
             <td id="dominant">Column 3, Row 2</td>
-            <td id="standard_deviation">Column 4, Row 2</td>
-            <td id ="coefficient of variation">Column 5, Row 2</td>
+            <td id="standard-deviation">Column 4, Row 2</td>
+            <td id ="coefficient-of-variation">Column 5, Row 2</td>
           </tr>
         </table>
 
