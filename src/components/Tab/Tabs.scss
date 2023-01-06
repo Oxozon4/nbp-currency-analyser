@@ -56,7 +56,7 @@
       border-radius: 5px;
 
     }
-    #time-interval-selecto zmienia kolory obramowaniar:hover {
+    #time-interval-selector:hover {
       border-color: map-get($colors, "primary");
     }
     table {
