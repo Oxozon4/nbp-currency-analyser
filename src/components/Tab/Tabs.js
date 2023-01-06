@@ -48,7 +48,7 @@ const Tabs = ({ setIsLoading }) => {
     getCurrencyData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  let medianTab = [];
   useEffect(() => {
     if (apiResponseData) {
       console.log(apiResponseData);
@@ -64,8 +64,37 @@ const Tabs = ({ setIsLoading }) => {
         } else if (defaultValue < mid) {
           increases += 1;
         }
+      })
+      apiResponseData.rates.forEach(({ mid }) => {
+        medianTab.push(mid);
+        
       });
+      function median(numbers) {
+        // Posortuj tablicę rosnąco
+        numbers.sort(function(a, b) {
+          return a - b;
+        });
       
+        // Oblicz indeks środkowego elementu
+        var middleIndex = Math.floor(numbers.length / 2);
+      
+        // Jeśli długość tablicy jest nieparzysta, zwróć element pośrodku tablicy
+        if (numbers.length % 2 !== 0) {
+          return numbers[middleIndex];
+        }
+        // W przeciwnym razie oblicz średnią arytmetyczną elementów pośrodku tablicy
+        else {
+          return (numbers[middleIndex - 1] + numbers[middleIndex]) / 2;
+        }
+      }
+      var medianValue = median(medianTab);
+      var cell = document.getElementById('mediana');
+      var value = medianValue;
+      cell.textContent = value;
+      var cell = document.getElementById('days');
+      var value = timeInterval;
+      cell.textContent = value;
+
       const newChartsData = {
         name: 'Ilość sesji zmian walutowych',
         Wzrosty: increases,
@@ -140,22 +169,23 @@ const Tabs = ({ setIsLoading }) => {
         tabela wyników
         <table>
           <tr>
-            <td>/</td>
+            <td>ilość dni</td>
             <td>Mediana</td>
             <td>Dominata</td>
             <td>Odchylenie standardowe</td>
             <td>Współczynnik zmienności</td>
           </tr>
           <tr>
-            <td>1 tydzień</td>
-            <td>Column 2, Row 2</td>
+            <td id = "days"></td>
+            <td id = "mediana">Column 2, Row 2</td>
             <td>Column 3, Row 2</td>
             <td>Column 4, Row 2</td>
             <td>Column 5, Row 2</td>
           </tr>
-          
         </table>
-      </div>
+        
+      </div >
+      
       <div
         data-testid="tab-content2"
         className={`tabs-content ${
