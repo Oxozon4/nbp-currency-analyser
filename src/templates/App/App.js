@@ -23,14 +23,6 @@ const App = () => {
         pauseOnHover
       />
       <div className="app">
-        <a
-          className="app-link"
-          href="http://api.nbp.pl/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          API NBP
-        </a>
         <Tabs setIsLoading={setIsLoading}/>
       </div>
     </>
