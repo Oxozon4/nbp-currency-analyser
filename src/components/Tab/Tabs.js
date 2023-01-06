@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import SelectCurrency from '../SelectCurrency/SelectCurrency';
 import './Tabs.scss';
 
@@ -9,26 +10,41 @@ const Tabs = ({ setIsLoading }) => {
   const [apiResponseData, setApiResponseData] = useState(null);
   const [selectedCurrency, setSelectedCurrency] = useState('USD');
 
-  useEffect(() => {
-    const getUrl = () => {
-      const today = new Date();
-      const todayDateString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-      const previousDate = new Date(today.setDate(today.getDate() - timeInterval));
-      const previousDateString = `${previousDate.getFullYear()}-${String(previousDate.getMonth() + 1).padStart(2, '0')}-${String(previousDate.getDate()).padStart(2, '0')}`;
-      const url = `//api.nbp.pl/api/exchangerates/rates/a/${selectedCurrency}/${previousDateString}/${todayDateString}/`;
-      return url;
+  const getUrl = () => {
+    const today = new Date();
+    const todayDateString = `${today.getFullYear()}-${String(
+      today.getMonth() + 1
+    ).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    const previousDate = new Date(
+      today.setDate(today.getDate() - timeInterval)
+    );
+    const previousDateString = `${previousDate.getFullYear()}-${String(
+      previousDate.getMonth() + 1
+    ).padStart(2, '0')}-${String(previousDate.getDate()).padStart(2, '0')}`;
+    const url = `//api.nbp.pl/api/exchangerates/rates/a/${selectedCurrency}/${previousDateString}/${todayDateString}/`;
+    return url;
+  };
+
+  const getCurrencyData = async () => {
+    const url = getUrl();
+    const response = await fetch(url);
+    if (!response.ok) {
+      toast.error(
+        'Wystąpił problem przy pobieraniu danych! Spróbuj ponownie później!'
+      );
     }
-    const getCurrencyData = async () => {
-      const url = getUrl();
-      const response = await fetch(url);
-      const data = await response.json();
-      setApiResponseData(data);
-      setCurrencyValue((data.rates[data.rates.length - 1].mid).toFixed(2));
-      setIsLoading(false);
-    };
+    const data = await response.json();
+    setApiResponseData(data);
+    setCurrencyValue(data.rates[data.rates.length - 1].mid.toFixed(2));
+    toast.success('Dane pobrane pomyślnie!', { id: 'test' });
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
     setIsLoading(true);
     getCurrencyData();
-  }, [timeInterval, setIsLoading, selectedCurrency]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (apiResponseData) {
@@ -40,13 +56,12 @@ const Tabs = ({ setIsLoading }) => {
     console.log(timeInterval);
   }, [timeInterval]);
 
-
   return (
     <div className="tabs">
       <div className="tabs-list">
         <div
           className={`tabs-list-header ${
-            tabIndex === 0 ? "tabs-list-header_active" : ""
+            tabIndex === 0 ? 'tabs-list-header_active' : ''
           }`}
           onClick={() => setTabIndex(0)}
         >
@@ -54,7 +69,7 @@ const Tabs = ({ setIsLoading }) => {
         </div>
         <div
           className={`tabs-list-header ${
-            tabIndex === 1 ? "tabs-list-header_active" : ""
+            tabIndex === 1 ? 'tabs-list-header_active' : ''
           }`}
           onClick={() => setTabIndex(1)}
         >
@@ -64,7 +79,7 @@ const Tabs = ({ setIsLoading }) => {
       <div
         data-testid="tab-content1"
         className={`tabs-content ${
-          tabIndex === 0 ? "tabs-content_active" : ""
+          tabIndex === 0 ? 'tabs-content_active' : ''
         }`}
       >
         <div>
@@ -92,11 +107,17 @@ const Tabs = ({ setIsLoading }) => {
           value={selectedCurrency}
           onChange={setSelectedCurrency}
         />
+        <button
+          onClick={(e) => getCurrencyData(e)}
+          className="tab-content1-button"
+        >
+          Oblicz
+        </button>
       </div>
       <div
         data-testid="tab-content2"
         className={`tabs-content ${
-          tabIndex === 1 ? "tabs-content_active" : ""
+          tabIndex === 1 ? 'tabs-content_active' : ''
         }`}
       >
         {/* Tab 2 content */}
