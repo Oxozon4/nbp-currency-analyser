@@ -44,13 +44,11 @@
       color: map-get($colors, "black");
       letter-spacing: 0.08em;
       border: none;
+      &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+      }
     }
-
-    button:hover {
-      cursor: pointer;
-      opacity: 0.8;
-    }
-
 
     &.tabs-content_active {
       display: flex;
