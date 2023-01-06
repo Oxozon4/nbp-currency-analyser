@@ -69,7 +69,6 @@
           font-size: map-get($font-sizes, "sm");
           font-weight: bold;
           margin: 5px 0;
-          letter-spacing: 0.06em;
         }
       }
   
@@ -95,17 +94,30 @@
       button {
         border-radius: 0 50px 50px 0;
         width: 240px;
-        font-size: map-get($font-sizes , "md");
+        font-size: map-get($font-sizes, "md");
       }
+    }
+
+    .table-title {
+      font-size: map-get($font-sizes, "lg");
+      font-weight: bold;
+      margin: 1rem 0;
+    }
+
+    .table-headers {
+      font-size: map-get($font-sizes, "md");
+      font-weight: bold;
+      background-color: map-get($colors, "primary");
     }
 
     table {
       border-collapse: collapse;
       width: 70%;
+      border: 2px solid map-get($colors, "primary");
     }
     
     td {
-      border: 2px solid black;
+      // border: 2px solid black;
       padding: 8px;
       text-align: center;
     }

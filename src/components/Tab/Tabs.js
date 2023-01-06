@@ -208,20 +208,20 @@ const Tabs = ({ setIsLoading }) => {
             Szukaj
           </button>
         </div>
-        <div style={{ marginBottom: '20px' }}>
+        <div style={{ marginBottom: '40px' }}>
           Aktualny kurs {currencyCode}: {currencyValue} zł
         </div>
         <CurrencyBarChart data={chartData} />
-        tabela wyników
+        <span className='table-title'>Parametry statystyczne</span>
         <table>
-          <tr>
+          <tr className='table-headers'>
             <td>Ilość dni</td>
             <td>Mediana</td>
             <td>Dominanta</td>
             <td>Odchylenie standardowe</td>
             <td>Współczynnik zmienności</td>
           </tr>
-          <tr>
+          <tr className='table-values'>
             <td id="days"></td>
             <td id="median">Column 2, Row 2</td>
             <td id="dominant">Column 3, Row 2</td>
