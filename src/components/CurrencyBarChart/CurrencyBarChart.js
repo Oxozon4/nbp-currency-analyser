@@ -12,29 +12,26 @@ import {
 } from 'recharts';
 import './CurrencyBarChart.scss';
 
-const data = [
-  {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-];
-
-const CurrencyBarChart = () => {
-  // 'https://codesandbox.io/s/tiny-bar-chart-35meb';
-
+const CurrencyBarChart = ({ data }) => {
+  const chartData = data || [
+    {
+      name: 'Ilość sesji zmian walutowych',
+      Wzrosty: 4000,
+      'Bez zmian': 2400,
+      Spadki: 2400,
+    },
+  ];
   return (
     <div className="bar-chart">
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart width={500} height={300} data={data}>
+        <BarChart width={500} height={300} data={chartData}>
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey="pv" fill="#8884d8" />
-          <Bar dataKey="uv" fill="#82ca9d" />
-          <Bar dataKey="amt" fill="#82ca9d" />
+          <Bar dataKey="Wzrosty" fill="#1ED760" />
+          <Bar dataKey="Bez zmian" fill="#8b919d" />
+          <Bar dataKey="Spadki" fill="#cb0029" />
         </BarChart>
       </ResponsiveContainer>
     </div>

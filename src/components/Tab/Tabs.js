@@ -11,6 +11,7 @@ const Tabs = ({ setIsLoading }) => {
   const [currencyValue, setCurrencyValue] = useState(0);
   const [apiResponseData, setApiResponseData] = useState(null);
   const [selectedCurrency, setSelectedCurrency] = useState('USD');
+  const [chartData, setChartData] = useState(null);
 
   const getUrl = () => {
     const today = new Date();
@@ -51,6 +52,26 @@ const Tabs = ({ setIsLoading }) => {
   useEffect(() => {
     if (apiResponseData) {
       console.log(apiResponseData);
+      const defaultValue = apiResponseData.rates[0].mid;
+      let decreases = 0;
+      let increases = 0;
+      let unchanged = 0;
+      apiResponseData.rates.forEach(({ mid }) => {
+        if (defaultValue === mid) {
+          unchanged += 1;
+        } else if (defaultValue > mid) {
+          decreases += 1;
+        } else if (defaultValue < mid) {
+          increases += 1;
+        }
+      });
+      const newChartsData = {
+        name: 'Ilość sesji zmian walutowych',
+        Wzrosty: increases,
+        'Bez zmian': unchanged,
+        Spadki: decreases,
+      };
+      setChartData(newChartsData);
     }
   }, [apiResponseData]);
 
@@ -114,7 +135,7 @@ const Tabs = ({ setIsLoading }) => {
         >
           Oblicz
         </button>
-        <CurrencyBarChart />
+        <CurrencyBarChart data={chartData} />
         tabela wyników
         <table>
           <tr>
