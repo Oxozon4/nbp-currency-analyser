@@ -5,35 +5,30 @@ import './Tabs.scss';
 const Tabs = ({ setIsLoading }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const [timeInterval, setTimeInterval] = useState(7);
-  const [currencyCode] = useState("USD");
   const [currencyValue, setCurrencyValue] = useState(0);
   const [apiResponseData, setApiResponseData] = useState(null);
   const [selectedCurrency, setSelectedCurrency] = useState('USD');
-  // const url = `//api.nbp.pl/api/exchangerates/rates/a/${currencyCode}/{today-timeInterval}/{today}/`;
-  const url = `//api.nbp.pl/api/exchangerates/rates/a/${currencyCode}/last/${timeInterval}`;
 
   useEffect(() => {
-    const setDates = () => {
+    const getUrl = () => {
       const today = new Date();
       const todayDateString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-      console.log(`Today: ${todayDateString}`);
-      
       const previousDate = new Date(today.setDate(today.getDate() - timeInterval));
       const previousDateString = `${previousDate.getFullYear()}-${String(previousDate.getMonth() + 1).padStart(2, '0')}-${String(previousDate.getDate()).padStart(2, '0')}`;
-      console.log(`PreviousDate: ${previousDateString}`);
+      const url = `//api.nbp.pl/api/exchangerates/rates/a/${selectedCurrency}/${previousDateString}/${todayDateString}/`;
+      return url;
     }
-
     const getCurrencyData = async () => {
+      const url = getUrl();
       const response = await fetch(url);
       const data = await response.json();
       setApiResponseData(data);
-      setCurrencyValue(data.rates[timeInterval - 1].mid);
+      setCurrencyValue((data.rates[data.rates.length - 1].mid).toFixed(2));
       setIsLoading(false);
     };
     setIsLoading(true);
-    setDates();
     getCurrencyData();
-  }, [timeInterval, setIsLoading, url]);
+  }, [timeInterval, setIsLoading, selectedCurrency]);
 
   useEffect(() => {
     if (apiResponseData) {
@@ -73,7 +68,7 @@ const Tabs = ({ setIsLoading }) => {
         }`}
       >
         <div>
-          Aktualny kurs {currencyCode}: {currencyValue} zł
+          Aktualny kurs {selectedCurrency}: {currencyValue} zł
         </div>
         <div>
           <label htmlFor="time-interval-selector">
