@@ -127,19 +127,19 @@ const Tabs = ({ setIsLoading }) => {
 
       let cell;
       let value;
-      cell = document.getElementById('mediana');
+      cell = document.getElementById('median');
       value = median(medianTab);
       cell.textContent = value;
       cell = document.getElementById('days');
       value = timeInterval;
       cell.textContent = value;
-      cell = document.getElementById('dominata');
+      cell = document.getElementById('dominant');
       value = findDominant(medianTab);
       cell.textContent = value;
-      cell = document.getElementById('odchylenie');
+      cell = document.getElementById('standard_deviation');
       value = standardDeviation(medianTab);
       cell.textContent = value;
-      cell = document.getElementById('zmiennosc');
+      cell = document.getElementById('coefficient of variation');
       value = calculateCoefficientOfVariation(medianTab);
       cell.textContent = value;
 
@@ -223,10 +223,10 @@ const Tabs = ({ setIsLoading }) => {
           </tr>
           <tr>
             <td id="days"></td>
-            <td id="mediana">Column 2, Row 2</td>
-            <td id="dominata">Column 3, Row 2</td>
-            <td id="odchylenie">Column 4, Row 2</td>
-            <td id ="zmiennosc">Column 5, Row 2</td>
+            <td id="median">Column 2, Row 2</td>
+            <td id="dominant">Column 3, Row 2</td>
+            <td id="standard_deviation">Column 4, Row 2</td>
+            <td id ="coefficient of variation">Column 5, Row 2</td>
           </tr>
         </table>
 
