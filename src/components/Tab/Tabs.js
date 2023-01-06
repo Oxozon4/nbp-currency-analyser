@@ -114,21 +114,33 @@ const Tabs = ({ setIsLoading }) => {
         return Math.sqrt(squaredDifferencesSum / array.length);
       }
 
+        const calculateCoefficientOfVariation = (values) => {
+        const mean = values.reduce((a, b) => a + b) / values.length;
+  
+        const standardDeviation = Math.sqrt(
+          values.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) /
+            (values.length - 1)
+        );
+      
+        return standardDeviation / mean;
+      }
+
       let cell;
       let value;
-      const medianValue = median(medianTab);
       cell = document.getElementById('mediana');
-      value = medianValue;
+      value = median(medianTab);
       cell.textContent = value;
       cell = document.getElementById('days');
       value = timeInterval;
       cell.textContent = value;
-      const dominant = findDominant(medianTab);
       cell = document.getElementById('dominata');
-      value = dominant;
+      value = findDominant(medianTab);
       cell.textContent = value;
       cell = document.getElementById('odchylenie');
       value = standardDeviation(medianTab);
+      cell.textContent = value;
+      cell = document.getElementById('zmiennosc');
+      value = calculateCoefficientOfVariation(medianTab);
       cell.textContent = value;
 
 
@@ -214,7 +226,7 @@ const Tabs = ({ setIsLoading }) => {
             <td id="mediana">Column 2, Row 2</td>
             <td id="dominata">Column 3, Row 2</td>
             <td id="odchylenie">Column 4, Row 2</td>
-            <td>Column 5, Row 2</td>
+            <td id ="zmiennosc">Column 5, Row 2</td>
           </tr>
         </table>
 
