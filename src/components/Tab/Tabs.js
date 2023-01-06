@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import SelectCurrency from '../SelectCurrency/SelectCurrency';
-import BarChart from '../BarChart/BarChart';
+import CurrencyBarChart from '../CurrencyBarChart/CurrencyBarChart';
 import './Tabs.scss';
 
 const Tabs = ({ setIsLoading }) => {
@@ -114,7 +114,7 @@ const Tabs = ({ setIsLoading }) => {
         >
           Oblicz
         </button>
-        <BarChart />
+        <CurrencyBarChart />
         tabela wyników
         <table>
           <tr>
