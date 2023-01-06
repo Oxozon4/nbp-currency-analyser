@@ -136,10 +136,10 @@ const Tabs = ({ setIsLoading }) => {
       cell = document.getElementById('dominant');
       value = findDominant(medianTab);
       cell.textContent = value;
-      cell = document.getElementById('standard_deviation');
+      cell = document.getElementById('standard-deviation');
       value = standardDeviation(medianTab);
       cell.textContent = value;
-      cell = document.getElementById('coefficient of variation');
+      cell = document.getElementById('coefficient-of-variation');
       value = calculateCoefficientOfVariation(medianTab);
       cell.textContent = value;
 
