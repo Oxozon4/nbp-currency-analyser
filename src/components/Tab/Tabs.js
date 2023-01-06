@@ -87,6 +87,36 @@ const Tabs = ({ setIsLoading }) => {
           return (numbers[middleIndex - 1] + numbers[middleIndex]) / 2;
         }
       }
+      function findDominant(data) {
+  // Tworzymy obiekt, w którym będziemy trzymać liczbę wystąpień dla każdego elementu
+  var counts = {};
+  // Iterujemy przez tablicę
+  for (var i = 0; i < data.length; i++) {
+    var value = data[i];
+    // Jeśli nie ma jeszcze wpisu dla danego elementu, dodajemy go i ustawiamy na 1
+    if (!counts[value]) {
+      counts[value] = 1;
+    }
+    // W przeciwnym razie zwiększamy liczbę wystąpień o 1
+    else {
+      counts[value]++;
+    }
+  }
+  // Zmienna do przechowywania dominanty
+  var dominant = null;
+  // Zmienna do przechowywania liczby wystąpień dominanty
+  var maxCount = 0;
+  // Iterujemy przez obiekt z liczbą wystąpień
+  for (var key in counts) {
+    // Jeśli liczba wystąpień jest większa niż dotychczasowa maksymalna liczba wystąpień, ustawiamy nową dominantę i nową maksymalną liczbę wystąpień
+    if (counts[key] > maxCount) {
+      dominant = key;
+      maxCount = counts[key];
+    }
+  }
+  // Zwracamy dominantę
+  return dominant;
+}
       var medianValue = median(medianTab);
       var cell = document.getElementById('mediana');
       var value = medianValue;
@@ -94,6 +124,11 @@ const Tabs = ({ setIsLoading }) => {
       var cell = document.getElementById('days');
       var value = timeInterval;
       cell.textContent = value;
+      var dominant = findDominant(medianTab);
+      var cell = document.getElementById('dominata');
+      var value = dominant;
+      cell.textContent = value;
+
 
       const newChartsData = {
         name: 'Ilość sesji zmian walutowych',
@@ -178,7 +213,7 @@ const Tabs = ({ setIsLoading }) => {
           <tr>
             <td id = "days"></td>
             <td id = "mediana">Column 2, Row 2</td>
-            <td>Column 3, Row 2</td>
+            <td id = "dominata">Column 3, Row 2</td>
             <td>Column 4, Row 2</td>
             <td>Column 5, Row 2</td>
           </tr>
