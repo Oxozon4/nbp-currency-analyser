@@ -120,8 +120,8 @@ const Tabs = ({ setIsLoading }) => {
           values.map((x) => Math.pow(x - mean, 2)).reduce((a, b) => a + b) /
             (values.length - 1)
         );
-
-        return standardDeviation / mean;
+        const result = ((standardDeviation / mean) * 100).toFixed(3) + "%";
+        return result;
       };
 
       let cell;
