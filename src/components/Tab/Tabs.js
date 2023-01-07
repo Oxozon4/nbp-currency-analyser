@@ -1,29 +1,29 @@
-import { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
-import SelectCurrency from '../SelectCurrency/SelectCurrency';
-import CurrencyBarChart from '../CurrencyBarChart/CurrencyBarChart';
-import './Tabs.scss';
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import SelectCurrency from "../SelectCurrency/SelectCurrency";
+import CurrencyBarChart from "../CurrencyBarChart/CurrencyBarChart";
+import "./Tabs.scss";
 
 const Tabs = ({ setIsLoading }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const [timeInterval, setTimeInterval] = useState(7);
-  const [currencyCode] = useState('USD');
+  const [currencyCode] = useState("USD");
   const [currencyValue, setCurrencyValue] = useState(0);
   const [apiResponseData, setApiResponseData] = useState(null);
-  const [selectedCurrency, setSelectedCurrency] = useState('USD');
+  const [selectedCurrency, setSelectedCurrency] = useState("USD");
   const [chartData, setChartData] = useState(null);
 
   const getUrl = () => {
     const today = new Date();
     const todayDateString = `${today.getFullYear()}-${String(
       today.getMonth() + 1
-    ).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    ).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
     const previousDate = new Date(
       today.setDate(today.getDate() - timeInterval)
     );
     const previousDateString = `${previousDate.getFullYear()}-${String(
       previousDate.getMonth() + 1
-    ).padStart(2, '0')}-${String(previousDate.getDate()).padStart(2, '0')}`;
+    ).padStart(2, "0")}-${String(previousDate.getDate()).padStart(2, "0")}`;
     const url = `//api.nbp.pl/api/exchangerates/rates/a/${selectedCurrency}/${previousDateString}/${todayDateString}/`;
     return url;
   };
@@ -33,13 +33,13 @@ const Tabs = ({ setIsLoading }) => {
     const response = await fetch(url);
     if (!response.ok) {
       toast.error(
-        'Wystąpił problem przy pobieraniu danych! Spróbuj ponownie później!'
+        "Wystąpił problem przy pobieraniu danych! Spróbuj ponownie później!"
       );
     }
     const data = await response.json();
     setApiResponseData(data);
     setCurrencyValue(data.rates[data.rates.length - 1].mid.toFixed(2));
-    toast.success('Dane pobrane pomyślnie!', { id: 'test' });
+    toast.success("Dane pobrane pomyślnie!", { id: "test" });
     setIsLoading(false);
   };
 
@@ -64,10 +64,9 @@ const Tabs = ({ setIsLoading }) => {
         } else if (defaultValue < mid) {
           increases += 1;
         }
-      })
+      });
       apiResponseData.rates.forEach(({ mid }) => {
         medianTab.push(mid);
-
       });
 
       const median = (numbers) => {
@@ -79,11 +78,10 @@ const Tabs = ({ setIsLoading }) => {
 
         if (numbers.length % 2 !== 0) {
           return numbers[middleIndex];
-        }
-        else {
+        } else {
           return (numbers[middleIndex - 1] + numbers[middleIndex]) / 2;
         }
-      }
+      };
 
       const findDominant = (data) => {
         let counts = {};
@@ -91,8 +89,7 @@ const Tabs = ({ setIsLoading }) => {
           const value = data[i];
           if (!counts[value]) {
             counts[value] = 1;
-          }
-          else {
+          } else {
             counts[value]++;
           }
         }
@@ -105,51 +102,54 @@ const Tabs = ({ setIsLoading }) => {
           }
         }
         return dominant;
-      }
+      };
 
       const standardDeviation = (array) => {
         const mean = array.reduce((a, b) => a + b) / array.length;
-        const squaredDifferences = array.map(x => Math.pow(x - mean, 2));
-        const squaredDifferencesSum = squaredDifferences.reduce((a, b) => a + b);
+        const squaredDifferences = array.map((x) => Math.pow(x - mean, 2));
+        const squaredDifferencesSum = squaredDifferences.reduce(
+          (a, b) => a + b
+        );
         return Math.sqrt(squaredDifferencesSum / array.length);
-      }
+      };
 
-        const calculateCoefficientOfVariation = (values) => {
+      const calculateCoefficientOfVariation = (values) => {
         const mean = values.reduce((a, b) => a + b) / values.length;
-  
+
         const standardDeviation = Math.sqrt(
-          values.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) /
+          values.map((x) => Math.pow(x - mean, 2)).reduce((a, b) => a + b) /
             (values.length - 1)
         );
-      
+
         return standardDeviation / mean;
-      }
+      };
 
       let cell;
       let value;
-      cell = document.getElementById('median');
+      cell = document.getElementById("median");
       value = median(medianTab);
       cell.textContent = value;
-      cell = document.getElementById('days');
+      cell = document.getElementById("days");
       value = timeInterval;
       cell.textContent = value;
-      cell = document.getElementById('dominant');
+      cell = document.getElementById("dominant");
       value = findDominant(medianTab);
       cell.textContent = value;
-      cell = document.getElementById('standard-deviation');
+      cell = document.getElementById("standard-deviation");
       value = standardDeviation(medianTab);
       cell.textContent = value;
-      cell = document.getElementById('coefficient-of-variation');
+      cell = document.getElementById("coefficient-of-variation");
       value = calculateCoefficientOfVariation(medianTab);
       cell.textContent = value;
 
-
-      const newChartsData = {
-        name: 'Ilość sesji zmian walutowych',
-        Wzrosty: increases,
-        'Bez zmian': unchanged,
-        Spadki: decreases,
-      };
+      const newChartsData = [
+        {
+          name: "Ilość sesji zmian walutowych",
+          Wzrosty: increases,
+          "Bez zmian": unchanged,
+          Spadki: decreases,
+        },
+      ];
       setChartData(newChartsData);
     }
   }, [apiResponseData]);
@@ -162,15 +162,17 @@ const Tabs = ({ setIsLoading }) => {
     <div className="tabs">
       <div className="tabs-list">
         <div
-          className={`tabs-list-header ${tabIndex === 0 ? 'tabs-list-header_active' : ''
-            }`}
+          className={`tabs-list-header ${
+            tabIndex === 0 ? "tabs-list-header_active" : ""
+          }`}
           onClick={() => setTabIndex(0)}
         >
           Analiza waluty
         </div>
         <div
-          className={`tabs-list-header ${tabIndex === 1 ? 'tabs-list-header_active' : ''
-            }`}
+          className={`tabs-list-header ${
+            tabIndex === 1 ? "tabs-list-header_active" : ""
+          }`}
           onClick={() => setTabIndex(1)}
         >
           Rozkład zmian par walutowych
@@ -178,8 +180,9 @@ const Tabs = ({ setIsLoading }) => {
       </div>
       <div
         data-testid="tab-content1"
-        className={`tabs-content ${tabIndex === 0 ? 'tabs-content_active' : ''
-          }`}
+        className={`tabs-content ${
+          tabIndex === 0 ? "tabs-content_active" : ""
+        }`}
       >
         <div className="search-bar">
           <div className="time-interval-div">
@@ -208,34 +211,34 @@ const Tabs = ({ setIsLoading }) => {
             Szukaj
           </button>
         </div>
-        <div style={{ marginBottom: '40px' }}>
+        <div style={{ marginBottom: "40px" }}>
           Aktualny kurs {currencyCode}: {currencyValue} zł
         </div>
         <CurrencyBarChart data={chartData} />
-        <span className='table-title'>Parametry statystyczne</span>
+        <span className="table-title">Parametry statystyczne</span>
         <table>
-          <tr className='table-headers'>
+          <tr className="table-headers">
             <td>Ilość dni</td>
             <td>Mediana</td>
             <td>Dominanta</td>
             <td>Odchylenie standardowe</td>
             <td>Współczynnik zmienności</td>
           </tr>
-          <tr className='table-values'>
+          <tr className="table-values">
             <td id="days">Fetching data...</td>
             <td id="median">Fetching data...</td>
             <td id="dominant">Fetching data...</td>
             <td id="standard-deviation">Fetching data...</td>
-            <td id ="coefficient-of-variation">Fetching data...</td>
+            <td id="coefficient-of-variation">Fetching data...</td>
           </tr>
         </table>
-
-      </div >
+      </div>
 
       <div
         data-testid="tab-content2"
-        className={`tabs-content ${tabIndex === 1 ? 'tabs-content_active' : ''
-          }`}
+        className={`tabs-content ${
+          tabIndex === 1 ? "tabs-content_active" : ""
+        }`}
       >
         Tab 2 content
       </div>
