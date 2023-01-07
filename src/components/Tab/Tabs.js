@@ -76,11 +76,13 @@ const Tabs = ({ setIsLoading }) => {
 
         const middleIndex = Math.floor(numbers.length / 2);
 
+        let result = 0;
         if (numbers.length % 2 !== 0) {
-          return numbers[middleIndex];
+          result = numbers[middleIndex];
         } else {
-          return (numbers[middleIndex - 1] + numbers[middleIndex]) / 2;
+          result = (numbers[middleIndex - 1] + numbers[middleIndex]) / 2;
         }
+        return result.toFixed(6);
       };
 
       const findDominant = (data) => {
@@ -110,7 +112,7 @@ const Tabs = ({ setIsLoading }) => {
         const squaredDifferencesSum = squaredDifferences.reduce(
           (a, b) => a + b
         );
-        return Math.sqrt(squaredDifferencesSum / array.length);
+        return (Math.sqrt(squaredDifferencesSum / array.length)).toFixed(6);
       };
 
       const calculateCoefficientOfVariation = (values) => {
