@@ -13,8 +13,8 @@
   font-size: map-get($font-sizes , "md");
   text-align: center;
   border: 1px solid map-get($colors, "black");
-  border-right: 1px solid map-get($colors, "grey");
   border-left: 1px solid map-get($colors, "grey");
+  border-radius: 0 50px 50px 0;
 }
 
 .react-autosuggest__input:hover {

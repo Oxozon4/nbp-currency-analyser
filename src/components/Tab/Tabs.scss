@@ -36,17 +36,17 @@
 
     button {
       background-color: map-get($colors, "primary");
-      width: 140px;
+      font-size: map-get($font-sizes, "sm");
       height: 40px;
-      padding: 0px 15px;
+      padding: 0px 30px;
       border-radius: 50px;
       font-weight: 600;
-      color: map-get($colors, "black");
+      color: map-get($colors, "secondary");
       letter-spacing: 0.08em;
       border: none;
       &:hover {
         cursor: pointer;
-        opacity: 0.8;
+        background-color: map-get($colors, "primaryHover");
       }
     }
 
@@ -79,7 +79,7 @@
         font-family: Helvetica, sans-serif;
         font-weight: 300;
         font-size: map-get($font-sizes , "md");
-        border-radius: 4px 0 0 4px;
+        border-radius: 50px 0 0 50px;
         text-align: center;
         appearance: none;
         border: 1px solid map-get($colors, "black");
@@ -94,11 +94,7 @@
       }
 
       button {
-        border: 1px solid map-get($colors, "black");
-        border-left: none;
-        border-radius: 0 4px 4px 0;
-        width: 180px;
-        font-size: map-get($font-sizes, "md");
+        margin-left: 1rem;
       }
     }
 
