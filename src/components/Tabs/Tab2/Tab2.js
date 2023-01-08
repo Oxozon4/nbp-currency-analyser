@@ -8,12 +8,12 @@ import "./Tab2.scss";
 const Tab2 = ({ setIsLoading }) => {
   const [timeInterval, setTimeInterval] = useState(7);
   const [firstSelectedCurrency, setFirstSelectedCurrency] = useState("USD");
-  const [secondSelectedCurrency, setSecondSelectedCurrency] = useState("PLN");
-  const [apiResponseData, setApiResponseData] = useState(null);
-  const [currencyValue, setCurrencyValue] = useState(0);
+  const [secondSelectedCurrency, setSecondSelectedCurrency] = useState("EUR");
+  const [firstCurrencyApiResponseData, setFirstCurrencyApiResponseData] = useState(null);
+  const [secondCurrencyApiResponseData, setSecondCurrencyApiResponseData] = useState(null);
   const [chartData, setChartData] = useState(null);
 
-  const getUrl = () => {
+  const getUrl = (currencyCode) => {
     const today = new Date();
     const todayDateString = `${today.getFullYear()}-${String(
       today.getMonth() + 1
@@ -24,12 +24,12 @@ const Tab2 = ({ setIsLoading }) => {
     const previousDateString = `${previousDate.getFullYear()}-${String(
       previousDate.getMonth() + 1
     ).padStart(2, "0")}-${String(previousDate.getDate()).padStart(2, "0")}`;
-    const url = `//api.nbp.pl/api/exchangerates/rates/a/${firstSelectedCurrency}/${previousDateString}/${todayDateString}/`;
+    const url = `//api.nbp.pl/api/exchangerates/rates/a/${currencyCode}/${previousDateString}/${todayDateString}/`;
     return url;
   };
 
-  const getCurrencyData = async () => {
-    const url = getUrl();
+  const getCurrencyData = async (currencyCode) => {
+    const url = getUrl(currencyCode);
     const response = await fetch(url);
     if (!response.ok) {
       toast.error(
@@ -38,48 +38,24 @@ const Tab2 = ({ setIsLoading }) => {
       );
     }
     const data = await response.json();
-    setApiResponseData(data);
-    setCurrencyValue(data.rates[data.rates.length - 1].mid.toFixed(2));
     toast.success("Dane pobrane pomyślnie!", { toastId: "data-success" });
     setIsLoading(false);
+    return data;
   };
 
   useEffect(() => {
     setIsLoading(true);
-    getCurrencyData();
+    setFirstCurrencyApiResponseData(getCurrencyData(firstSelectedCurrency)); 
+    setSecondCurrencyApiResponseData(getCurrencyData(secondSelectedCurrency)); 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (apiResponseData) {
-      console.log(apiResponseData);
-      const defaultValue = apiResponseData.rates[0].mid;
-      let ratesArray = [];
-      let decreases = 0;
-      let increases = 0;
-      let unchanged = 0;
-      apiResponseData.rates.forEach(({ mid }) => {
-        ratesArray.push(mid);
-        if (defaultValue === mid) {
-          unchanged += 1;
-        } else if (defaultValue > mid) {
-          decreases += 1;
-        } else if (defaultValue < mid) {
-          increases += 1;
-        }
-      });
-
-      const newChartsData = [
-        {
-          name: "Ilość sesji zmian walutowych",
-          Wzrosty: increases,
-          "Bez zmian": unchanged,
-          Spadki: decreases,
-        },
-      ];
-      setChartData(newChartsData);
+    if (firstCurrencyApiResponseData && secondCurrencyApiResponseData) {
+      console.log(firstCurrencyApiResponseData);
+      console.log(secondCurrencyApiResponseData);
     }
-  }, [apiResponseData, timeInterval]);
+  }, [firstCurrencyApiResponseData, secondCurrencyApiResponseData, timeInterval]);
 
   return (
     <>
@@ -114,9 +90,6 @@ const Tab2 = ({ setIsLoading }) => {
         >
           Szukaj
         </button>
-      </div>
-      <div style={{ marginBottom: "40px" }}>
-        Aktualny kurs {firstSelectedCurrency}: {currencyValue} zł
       </div>
       <CurrencyBarChart data={chartData} />
     </>
