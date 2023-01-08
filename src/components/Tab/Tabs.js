@@ -1,17 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import SelectCurrency from "../SelectCurrency/SelectCurrency";
 import CurrencyBarChart from "../CurrencyBarChart/CurrencyBarChart";
+import {
+  getMedian,
+  getDominant,
+  getStandardDeviation,
+  getCoefficientOfVariation,
+} from "../../helpers/statisticParameters";
 import "./Tabs.scss";
 
 const Tabs = ({ setIsLoading }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const [timeInterval, setTimeInterval] = useState(7);
-  const [currencyCode] = useState("USD");
-  const [currencyValue, setCurrencyValue] = useState(0);
-  const [apiResponseData, setApiResponseData] = useState(null);
   const [selectedCurrency, setSelectedCurrency] = useState("USD");
+  const [apiResponseData, setApiResponseData] = useState(null);
+  const [currencyValue, setCurrencyValue] = useState(0);
   const [chartData, setChartData] = useState(null);
+  const daysTableCell = useRef(null);
+  const ratesArrayleCell = useRef(null);
+  const dominantTableCell = useRef(null);
+  const standardDeviationTableCell = useRef(null);
+  const coefficientVariationTableCell = useRef(null);
 
   const getUrl = () => {
     const today = new Date();
@@ -33,13 +44,14 @@ const Tabs = ({ setIsLoading }) => {
     const response = await fetch(url);
     if (!response.ok) {
       toast.error(
-        "Wystąpił problem przy pobieraniu danych! Spróbuj ponownie później!"
+        "Wystąpił problem przy pobieraniu danych! Spróbuj ponownie później!",
+        { toastId: "data-fail" }
       );
     }
     const data = await response.json();
     setApiResponseData(data);
     setCurrencyValue(data.rates[data.rates.length - 1].mid.toFixed(2));
-    toast.success("Dane pobrane pomyślnie!", { id: "test" });
+    toast.success("Dane pobrane pomyślnie!", { toastId: "data-success" });
     setIsLoading(false);
   };
 
@@ -48,15 +60,17 @@ const Tabs = ({ setIsLoading }) => {
     getCurrencyData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  let medianTab = [];
+
   useEffect(() => {
     if (apiResponseData) {
       console.log(apiResponseData);
       const defaultValue = apiResponseData.rates[0].mid;
+      let ratesArray = [];
       let decreases = 0;
       let increases = 0;
       let unchanged = 0;
       apiResponseData.rates.forEach(({ mid }) => {
+        ratesArray.push(mid);
         if (defaultValue === mid) {
           unchanged += 1;
         } else if (defaultValue > mid) {
@@ -65,84 +79,14 @@ const Tabs = ({ setIsLoading }) => {
           increases += 1;
         }
       });
-      apiResponseData.rates.forEach(({ mid }) => {
-        medianTab.push(mid);
-      });
 
-      const median = (numbers) => {
-        numbers.sort(function (a, b) {
-          return a - b;
-        });
-
-        const middleIndex = Math.floor(numbers.length / 2);
-
-        let result = 0;
-        if (numbers.length % 2 !== 0) {
-          result = numbers[middleIndex];
-        } else {
-          result = (numbers[middleIndex - 1] + numbers[middleIndex]) / 2;
-        }
-        return result.toFixed(6);
-      };
-
-      const findDominant = (data) => {
-        let counts = {};
-        for (let i = 0; i < data.length; i++) {
-          const value = data[i];
-          if (!counts[value]) {
-            counts[value] = 1;
-          } else {
-            counts[value]++;
-          }
-        }
-        let dominant = null;
-        let maxCount = 0;
-        for (const key in counts) {
-          if (counts[key] > maxCount) {
-            dominant = key;
-            maxCount = counts[key];
-          }
-        }
-        return dominant;
-      };
-
-      const standardDeviation = (array) => {
-        const mean = array.reduce((a, b) => a + b) / array.length;
-        const squaredDifferences = array.map((x) => Math.pow(x - mean, 2));
-        const squaredDifferencesSum = squaredDifferences.reduce(
-          (a, b) => a + b
-        );
-        return (Math.sqrt(squaredDifferencesSum / array.length)).toFixed(6);
-      };
-
-      const calculateCoefficientOfVariation = (values) => {
-        const mean = values.reduce((a, b) => a + b) / values.length;
-
-        const standardDeviation = Math.sqrt(
-          values.map((x) => Math.pow(x - mean, 2)).reduce((a, b) => a + b) /
-            (values.length - 1)
-        );
-        const result = ((standardDeviation / mean) * 100).toFixed(3) + "%";
-        return result;
-      };
-
-      let cell;
-      let value;
-      cell = document.getElementById("median");
-      value = median(medianTab);
-      cell.textContent = value;
-      cell = document.getElementById("days");
-      value = timeInterval;
-      cell.textContent = value;
-      cell = document.getElementById("dominant");
-      value = findDominant(medianTab);
-      cell.textContent = value;
-      cell = document.getElementById("standard-deviation");
-      value = standardDeviation(medianTab);
-      cell.textContent = value;
-      cell = document.getElementById("coefficient-of-variation");
-      value = calculateCoefficientOfVariation(medianTab);
-      cell.textContent = value;
+      daysTableCell.current.textContent = timeInterval;
+      ratesArrayleCell.current.textContent = getMedian(ratesArray);
+      dominantTableCell.current.textContent = getDominant(ratesArray);
+      standardDeviationTableCell.current.textContent =
+        getStandardDeviation(ratesArray);
+      coefficientVariationTableCell.current.textContent =
+        getCoefficientOfVariation(ratesArray);
 
       const newChartsData = [
         {
@@ -154,11 +98,7 @@ const Tabs = ({ setIsLoading }) => {
       ];
       setChartData(newChartsData);
     }
-  }, [apiResponseData]);
-
-  useEffect(() => {
-    console.log(timeInterval);
-  }, [timeInterval]);
+  }, [apiResponseData, timeInterval]);
 
   return (
     <div className="tabs">
@@ -214,28 +154,44 @@ const Tabs = ({ setIsLoading }) => {
           </button>
         </div>
         <div style={{ marginBottom: "40px" }}>
-          Aktualny kurs {currencyCode}: {currencyValue} zł
+          Aktualny kurs {selectedCurrency}: {currencyValue} zł
         </div>
         <CurrencyBarChart data={chartData} />
         <span className="table-title">Parametry statystyczne</span>
         <table>
-          <tr className="table-headers">
-            <td>Ilość dni</td>
-            <td>Mediana</td>
-            <td>Dominanta</td>
-            <td>Odchylenie standardowe</td>
-            <td>Współczynnik zmienności</td>
-          </tr>
-          <tr className="table-values">
-            <td id="days">Fetching data...</td>
-            <td id="median">Fetching data...</td>
-            <td id="dominant">Fetching data...</td>
-            <td id="standard-deviation">Fetching data...</td>
-            <td id="coefficient-of-variation">Fetching data...</td>
-          </tr>
+          <thead>
+            <tr className="table-headers">
+              <td>Ilość dni</td>
+              <td>Mediana</td>
+              <td>Dominanta</td>
+              <td>Odchylenie standardowe</td>
+              <td>Współczynnik zmienności</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="table-values">
+              <td ref={daysTableCell} id="days">
+                Fetching data...
+              </td>
+              <td ref={ratesArrayleCell} id="median">
+                Fetching data...
+              </td>
+              <td ref={dominantTableCell} id="dominant">
+                Fetching data...
+              </td>
+              <td ref={standardDeviationTableCell} id="standard-deviation">
+                Fetching data...
+              </td>
+              <td
+                ref={coefficientVariationTableCell}
+                id="coefficient-of-variation"
+              >
+                Fetching data...
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
-
       <div
         data-testid="tab-content2"
         className={`tabs-content ${
@@ -246,6 +202,10 @@ const Tabs = ({ setIsLoading }) => {
       </div>
     </div>
   );
+};
+
+Tabs.propTypes = {
+  setIsLoading: PropTypes.func.isRequired,
 };
 
 export default Tabs;
