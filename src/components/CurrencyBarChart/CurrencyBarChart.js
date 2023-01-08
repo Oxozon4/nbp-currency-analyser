@@ -5,12 +5,11 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from 'recharts';
 import './CurrencyBarChart.scss';
 
-const CurrencyBarChart = ({ data }) => {
+const CurrencyBarChart = ({ data, variant }) => {
   const chartData = data || [
     {
       name: 'Ilość sesji zmian walutowych',
@@ -23,13 +22,20 @@ const CurrencyBarChart = ({ data }) => {
     <div className="bar-chart">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart width={500} height={300} data={chartData}>
-          <XAxis dataKey="name" />
+          <XAxis dataKey="name" tick={{ fontSize: 15 }} />
           <YAxis />
           <Tooltip />
-          <Legend />
-          <Bar dataKey="Wzrosty" fill="#1ED760" />
-          <Bar dataKey="Bez zmian" fill="#8b919d" />
-          <Bar dataKey="Spadki" fill="#cb0029" />
+          {variant === 'primary' ? (
+            <>
+              <Bar dataKey="Wzrosty" fill="#1ED760" />
+              <Bar dataKey="Bez zmian" fill="#8b919d" />
+              <Bar dataKey="Spadki" fill="#cb0029" />
+            </>
+          ) : (
+            <>
+              <Bar name="" dataKey="data" fill="#1ED760" />
+            </>
+          )}
         </BarChart>
       </ResponsiveContainer>
     </div>

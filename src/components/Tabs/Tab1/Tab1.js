@@ -132,7 +132,7 @@ const Tab1 = ({ setIsLoading }) => {
       <div style={{ marginBottom: '40px' }}>
         Aktualny kurs {selectedCurrency}: {currencyValue} zł
       </div>
-      <CurrencyBarChart data={chartData} />
+      <CurrencyBarChart data={chartData} variant="primary" />
       <span className="table-title">Parametry statystyczne</span>
       <table>
         <thead>

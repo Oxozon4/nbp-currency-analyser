@@ -6,7 +6,7 @@ import CurrencyBarChart from '../../CurrencyBarChart/CurrencyBarChart';
 import './Tab2.scss';
 
 const Tab2 = ({ setIsLoading }) => {
-  const [timeInterval, setTimeInterval] = useState(7);
+  const [timeInterval, setTimeInterval] = useState(90);
   const [firstSelectedCurrency, setFirstSelectedCurrency] = useState('USD');
   const [secondSelectedCurrency, setSecondSelectedCurrency] = useState('EUR');
   const [firstCurrencyApiResponseData, setFirstCurrencyApiResponseData] =
@@ -41,14 +41,18 @@ const Tab2 = ({ setIsLoading }) => {
     }
     const data = await response.json();
     toast.success('Dane pobrane pomyślnie!', { toastId: 'data-success' });
-    setIsLoading(false);
-    return data;
+    if (currencyCode === firstSelectedCurrency) {
+      setFirstCurrencyApiResponseData(data);
+    } else if (currencyCode === secondSelectedCurrency) {
+      setSecondCurrencyApiResponseData(data);
+      setIsLoading(false);
+    }
   };
 
   const getAllCurrencyData = () => {
     setIsLoading(true);
-    setFirstCurrencyApiResponseData(getCurrencyData(firstSelectedCurrency));
-    setSecondCurrencyApiResponseData(getCurrencyData(secondSelectedCurrency));
+    getCurrencyData(firstSelectedCurrency);
+    getCurrencyData(secondSelectedCurrency);
   };
 
   useEffect(() => {
@@ -57,10 +61,83 @@ const Tab2 = ({ setIsLoading }) => {
   }, []);
 
   useEffect(() => {
-    if (firstCurrencyApiResponseData && secondCurrencyApiResponseData) {
-      console.log(firstCurrencyApiResponseData);
-      console.log(secondCurrencyApiResponseData);
+    if (!firstCurrencyApiResponseData || !secondCurrencyApiResponseData) {
+      return;
     }
+    console.log(firstCurrencyApiResponseData);
+    console.log(secondCurrencyApiResponseData);
+
+    const firstRatesArray = [];
+    const secondRatesArray = [];
+    // fill arrays with each currency values
+    firstCurrencyApiResponseData.rates.forEach(({ mid }) => {
+      firstRatesArray.push(mid);
+    });
+    secondCurrencyApiResponseData.rates.forEach(({ mid }) => {
+      secondRatesArray.push(mid);
+    });
+
+    const dividedValuesArray = [];
+    firstRatesArray.forEach((firstRate, index) => {
+      dividedValuesArray.push(firstRate / secondRatesArray[index]);
+    });
+
+    const result = [];
+    // fill result array
+    dividedValuesArray.forEach((value, index, array) => {
+      const currentCurrencyPrice = array[index];
+      const previousCurrencyPrice = array[index + 1];
+      const currencyChange =
+        (currentCurrencyPrice - previousCurrencyPrice) / previousCurrencyPrice;
+      if (typeof currencyChange === 'number' && !Number.isNaN(currencyChange)) {
+        result.push(currencyChange);
+      }
+    });
+    const maxValue = Math.max(...result);
+    const minValue = Math.min(...result);
+    const numberOfBars = Math.round(Math.sqrt(result.length));
+    const barLength = (maxValue - minValue) / numberOfBars;
+    const ranges = [];
+    const percentArray = [];
+
+    // fill ranges array
+    for (let i = 0; i < numberOfBars; i += 1) {
+      if (i === 0) {
+        ranges.push({
+          firstValue: minValue,
+          secondValue: minValue + barLength,
+        });
+      } else {
+        ranges.push({
+          firstValue: ranges[i - 1].secondValue,
+          secondValue: ranges[i - 1].secondValue + barLength,
+        });
+      }
+      percentArray[i] = 0;
+    }
+
+    // fill percentArray
+    result.forEach((value, index, array) => {
+      ranges.forEach((range, rIndex, rArray) => {
+        if (value >= range.firstValue && value < range.secondValue) {
+          percentArray[rIndex] += 1;
+        }
+      });
+    });
+
+    // let partialSum;
+    const sum = percentArray.reduce((partialSum, a) => partialSum + a, 0);
+    const newChartData = [];
+    percentArray.forEach((element, index) => {
+      newChartData.push({
+        name: `(${ranges[index].firstValue.toFixed(4)}, ${ranges[
+          index
+        ].secondValue.toFixed(4)})`,
+        data: (element / sum) * 100,
+      });
+    });
+
+    setChartData(newChartData);
   }, [
     firstCurrencyApiResponseData,
     secondCurrencyApiResponseData,
@@ -99,7 +176,7 @@ const Tab2 = ({ setIsLoading }) => {
           Szukaj
         </button>
       </div>
-      <CurrencyBarChart data={chartData} />
+      <CurrencyBarChart data={chartData} variant="secondary" />
     </div>
   );
 };
