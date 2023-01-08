@@ -53,6 +53,7 @@ const Tab2 = ({ setIsLoading }) => {
 
   useEffect(() => {
     getAllCurrencyData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
