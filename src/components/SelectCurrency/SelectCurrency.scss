@@ -1,4 +1,4 @@
-@import "../../assets/styles/globalStyles.scss";
+@import '../../assets/styles/globalStyles.scss';
 
 .react-autosuggest__container {
   position: relative;
@@ -10,15 +10,14 @@
   padding: 10px 20px;
   font-family: Helvetica, sans-serif;
   font-weight: 300;
-  font-size: map-get($font-sizes , "md");
+  font-size: map-get($font-sizes, 'md');
   text-align: center;
-  border: 1px solid map-get($colors, "black");
-  border-left: 1px solid map-get($colors, "grey");
-  border-radius: 0 50px 50px 0;
+  border: 1px solid map-get($colors, 'black');
+  border-left: 1px solid map-get($colors, 'grey');
 }
 
 .react-autosuggest__input:hover {
-  background-color: map-get($colors, "lightGrey");
+  background-color: map-get($colors, 'lightGrey');
   cursor: pointer;
 }
 
@@ -75,7 +74,7 @@
   display: flex;
   flex-direction: column;
   label {
-    font-size: map-get($font-sizes, "sm");
+    font-size: map-get($font-sizes, 'sm');
     font-weight: bold;
     margin: 5px 0;
     letter-spacing: 0.06em;
