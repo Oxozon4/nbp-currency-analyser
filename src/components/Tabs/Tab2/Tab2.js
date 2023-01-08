@@ -9,8 +9,10 @@ const Tab2 = ({ setIsLoading }) => {
   const [timeInterval, setTimeInterval] = useState(7);
   const [firstSelectedCurrency, setFirstSelectedCurrency] = useState("USD");
   const [secondSelectedCurrency, setSecondSelectedCurrency] = useState("EUR");
-  const [firstCurrencyApiResponseData, setFirstCurrencyApiResponseData] = useState(null);
-  const [secondCurrencyApiResponseData, setSecondCurrencyApiResponseData] = useState(null);
+  const [firstCurrencyApiResponseData, setFirstCurrencyApiResponseData] =
+    useState(null);
+  const [secondCurrencyApiResponseData, setSecondCurrencyApiResponseData] =
+    useState(null);
   const [chartData, setChartData] = useState(null);
 
   const getUrl = (currencyCode) => {
@@ -43,11 +45,14 @@ const Tab2 = ({ setIsLoading }) => {
     return data;
   };
 
-  useEffect(() => {
+  const getAllCurrencyData = () => {
     setIsLoading(true);
-    setFirstCurrencyApiResponseData(getCurrencyData(firstSelectedCurrency)); 
-    setSecondCurrencyApiResponseData(getCurrencyData(secondSelectedCurrency)); 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setFirstCurrencyApiResponseData(getCurrencyData(firstSelectedCurrency));
+    setSecondCurrencyApiResponseData(getCurrencyData(secondSelectedCurrency));
+  };
+
+  useEffect(() => {
+    getAllCurrencyData();
   }, []);
 
   useEffect(() => {
@@ -55,7 +60,11 @@ const Tab2 = ({ setIsLoading }) => {
       console.log(firstCurrencyApiResponseData);
       console.log(secondCurrencyApiResponseData);
     }
-  }, [firstCurrencyApiResponseData, secondCurrencyApiResponseData, timeInterval]);
+  }, [
+    firstCurrencyApiResponseData,
+    secondCurrencyApiResponseData,
+    timeInterval,
+  ]);
 
   return (
     <>
@@ -81,7 +90,7 @@ const Tab2 = ({ setIsLoading }) => {
           onChange={setSecondSelectedCurrency}
         />
         <button
-          onClick={(e) => getCurrencyData(e)}
+          onClick={(e) => getAllCurrencyData(e)}
           className="tab-content1-button"
         >
           Szukaj
