@@ -1,0 +1,10 @@
+@import "../../assets/styles/globalStyles.scss";
+
+.app {
+  text-align: center;
+  font-size: map-get($font-sizes, "md");
+
+  .app-link {
+    color: map-get($colors, "link");
+  }
+}
