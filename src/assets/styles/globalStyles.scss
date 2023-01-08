@@ -1,0 +1,31 @@
+$font-sizes: (
+  "sm": 14px,
+  "md": 18px,
+  "lg": 24px,
+  "xl": 30px
+);
+
+$colors: (
+  "primary": #1ED760,
+  "secondary": #444444,
+  "tertiary": #E9E9E9,
+  "link": #61dafb,
+  "white": #FFFFFF,
+  "lightGrey": #f0f0f0,
+  "grey": #C0C7D6,
+  "black": #111111,
+  "success": #8FCB81,
+  "error": #CB8581,
+  "warning": #E1D888,
+  "placeholder": #626262,
+  "red": #ff0033,
+  "primaryHover": #1DC650,
+);
+
+$breakpoints: (
+  "xs": (max-width: 576px),
+  "sm": (min-width: 576px),
+  "md": (min-width: 768px),
+  "lg": (min-width: 992px),
+  "xl": (min-width: 1200px),
+);
