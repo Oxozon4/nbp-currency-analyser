@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { toast } from "react-toastify";
-import SelectCurrency from "../../SelectCurrency/SelectCurrency";
-import CurrencyBarChart from "../../CurrencyBarChart/CurrencyBarChart";
-import "./Tab2.scss";
+import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
+import SelectCurrency from '../../SelectCurrency/SelectCurrency';
+import CurrencyBarChart from '../../CurrencyBarChart/CurrencyBarChart';
+import './Tab2.scss';
 
 const Tab2 = ({ setIsLoading }) => {
   const [timeInterval, setTimeInterval] = useState(7);
-  const [firstSelectedCurrency, setFirstSelectedCurrency] = useState("USD");
-  const [secondSelectedCurrency, setSecondSelectedCurrency] = useState("EUR");
+  const [firstSelectedCurrency, setFirstSelectedCurrency] = useState('USD');
+  const [secondSelectedCurrency, setSecondSelectedCurrency] = useState('EUR');
   const [firstCurrencyApiResponseData, setFirstCurrencyApiResponseData] =
     useState(null);
   const [secondCurrencyApiResponseData, setSecondCurrencyApiResponseData] =
@@ -19,13 +19,13 @@ const Tab2 = ({ setIsLoading }) => {
     const today = new Date();
     const todayDateString = `${today.getFullYear()}-${String(
       today.getMonth() + 1
-    ).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+    ).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
     const previousDate = new Date(
       today.setDate(today.getDate() - timeInterval)
     );
     const previousDateString = `${previousDate.getFullYear()}-${String(
       previousDate.getMonth() + 1
-    ).padStart(2, "0")}-${String(previousDate.getDate()).padStart(2, "0")}`;
+    ).padStart(2, '0')}-${String(previousDate.getDate()).padStart(2, '0')}`;
     const url = `//api.nbp.pl/api/exchangerates/rates/a/${currencyCode}/${previousDateString}/${todayDateString}/`;
     return url;
   };
@@ -35,12 +35,12 @@ const Tab2 = ({ setIsLoading }) => {
     const response = await fetch(url);
     if (!response.ok) {
       toast.error(
-        "Wystąpił problem przy pobieraniu danych! Spróbuj ponownie później!",
-        { toastId: "data-fail" }
+        'Wystąpił problem przy pobieraniu danych! Spróbuj ponownie później!',
+        { toastId: 'data-fail' }
       );
     }
     const data = await response.json();
-    toast.success("Dane pobrane pomyślnie!", { toastId: "data-success" });
+    toast.success('Dane pobrane pomyślnie!', { toastId: 'data-success' });
     setIsLoading(false);
     return data;
   };
@@ -53,7 +53,7 @@ const Tab2 = ({ setIsLoading }) => {
 
   useEffect(() => {
     getAllCurrencyData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ const Tab2 = ({ setIsLoading }) => {
   ]);
 
   return (
-    <>
+    <div className="tab2">
       <div className="search-bar">
         <div className="time-interval-div">
           <label htmlFor="time-interval-selector">Przedział czasowy:</label>
@@ -81,11 +81,13 @@ const Tab2 = ({ setIsLoading }) => {
           </select>
         </div>
         <SelectCurrency
+          order="1"
           name="select-currency"
           value={firstSelectedCurrency}
           onChange={setFirstSelectedCurrency}
         />
         <SelectCurrency
+          order="2"
           name="select-currency-2nd"
           value={secondSelectedCurrency}
           onChange={setSecondSelectedCurrency}
@@ -98,7 +100,7 @@ const Tab2 = ({ setIsLoading }) => {
         </button>
       </div>
       <CurrencyBarChart data={chartData} />
-    </>
+    </div>
   );
 };
 

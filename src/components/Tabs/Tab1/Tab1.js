@@ -1,19 +1,19 @@
-import { useState, useEffect, useRef } from "react";
-import PropTypes from "prop-types";
-import { toast } from "react-toastify";
-import SelectCurrency from "../../SelectCurrency/SelectCurrency";
-import CurrencyBarChart from "../../CurrencyBarChart/CurrencyBarChart";
+import { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
+import SelectCurrency from '../../SelectCurrency/SelectCurrency';
+import CurrencyBarChart from '../../CurrencyBarChart/CurrencyBarChart';
 import {
   getMedian,
   getDominant,
   getStandardDeviation,
   getCoefficientOfVariation,
-} from "../../../helpers/statisticParameters";
-import "./Tab1.scss";
+} from '../../../helpers/statisticParameters';
+import './Tab1.scss';
 
 const Tab1 = ({ setIsLoading }) => {
   const [timeInterval, setTimeInterval] = useState(7);
-  const [selectedCurrency, setSelectedCurrency] = useState("USD");
+  const [selectedCurrency, setSelectedCurrency] = useState('USD');
   const [apiResponseData, setApiResponseData] = useState(null);
   const [currencyValue, setCurrencyValue] = useState(0);
   const [chartData, setChartData] = useState(null);
@@ -27,13 +27,13 @@ const Tab1 = ({ setIsLoading }) => {
     const today = new Date();
     const todayDateString = `${today.getFullYear()}-${String(
       today.getMonth() + 1
-    ).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+    ).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
     const previousDate = new Date(
       today.setDate(today.getDate() - timeInterval)
     );
     const previousDateString = `${previousDate.getFullYear()}-${String(
       previousDate.getMonth() + 1
-    ).padStart(2, "0")}-${String(previousDate.getDate()).padStart(2, "0")}`;
+    ).padStart(2, '0')}-${String(previousDate.getDate()).padStart(2, '0')}`;
     const url = `//api.nbp.pl/api/exchangerates/rates/a/${selectedCurrency}/${previousDateString}/${todayDateString}/`;
     return url;
   };
@@ -43,14 +43,14 @@ const Tab1 = ({ setIsLoading }) => {
     const response = await fetch(url);
     if (!response.ok) {
       toast.error(
-        "Wystąpił problem przy pobieraniu danych! Spróbuj ponownie później!",
-        { toastId: "data-fail" }
+        'Wystąpił problem przy pobieraniu danych! Spróbuj ponownie później!',
+        { toastId: 'data-fail' }
       );
     }
     const data = await response.json();
     setApiResponseData(data);
     setCurrencyValue(data.rates[data.rates.length - 1].mid.toFixed(2));
-    toast.success("Dane pobrane pomyślnie!", { toastId: "data-success" });
+    toast.success('Dane pobrane pomyślnie!', { toastId: 'data-success' });
     setIsLoading(false);
   };
 
@@ -89,9 +89,9 @@ const Tab1 = ({ setIsLoading }) => {
 
       const newChartsData = [
         {
-          name: "Ilość sesji zmian walutowych",
+          name: 'Ilość sesji zmian walutowych',
           Wzrosty: increases,
-          "Bez zmian": unchanged,
+          'Bez zmian': unchanged,
           Spadki: decreases,
         },
       ];
@@ -100,7 +100,7 @@ const Tab1 = ({ setIsLoading }) => {
   }, [apiResponseData, timeInterval]);
 
   return (
-    <>
+    <div className="tab1">
       <div className="search-bar">
         <div className="time-interval-div">
           <label htmlFor="time-interval-selector">Przedział czasowy:</label>
@@ -117,6 +117,7 @@ const Tab1 = ({ setIsLoading }) => {
           </select>
         </div>
         <SelectCurrency
+          order="1"
           name="select-currency"
           value={selectedCurrency}
           onChange={setSelectedCurrency}
@@ -128,7 +129,7 @@ const Tab1 = ({ setIsLoading }) => {
           Szukaj
         </button>
       </div>
-      <div style={{ marginBottom: "40px" }}>
+      <div style={{ marginBottom: '40px' }}>
         Aktualny kurs {selectedCurrency}: {currencyValue} zł
       </div>
       <CurrencyBarChart data={chartData} />
@@ -166,7 +167,7 @@ const Tab1 = ({ setIsLoading }) => {
           </tr>
         </tbody>
       </table>
-    </>
+    </div>
   );
 };
 
