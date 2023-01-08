@@ -131,5 +131,22 @@ button {
         }
       }
     }
+
+    .table-title {
+      font-size: map-get($font-sizes, 'md');
+    }
+
+    .table-headers {
+      font-size: map-get($font-sizes, 'sm');
+    }
+
+    .table-values {
+      font-size: map-get($font-sizes, 'sm');
+      font-weight: normal;
+    }
+
+    td {
+      padding: 2px;
+    }
   }
 }
