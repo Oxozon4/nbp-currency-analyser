@@ -1,28 +1,17 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import SelectCurrency from "../../SelectCurrency/SelectCurrency";
 import CurrencyBarChart from "../../CurrencyBarChart/CurrencyBarChart";
-import {
-  getMedian,
-  getDominant,
-  getStandardDeviation,
-  getCoefficientOfVariation,
-} from "../../../helpers/statisticParameters";
 import "./Tab2.scss";
 
 const Tab2 = ({ setIsLoading }) => {
   const [timeInterval, setTimeInterval] = useState(7);
   const [firstSelectedCurrency, setFirstSelectedCurrency] = useState("USD");
-  const [secondSelectedCurrency, setSecondSelectedCurrency] = useState("USD");
+  const [secondSelectedCurrency, setSecondSelectedCurrency] = useState("PLN");
   const [apiResponseData, setApiResponseData] = useState(null);
   const [currencyValue, setCurrencyValue] = useState(0);
   const [chartData, setChartData] = useState(null);
-  const daysTableCell = useRef(null);
-  const ratesArrayleCell = useRef(null);
-  const dominantTableCell = useRef(null);
-  const standardDeviationTableCell = useRef(null);
-  const coefficientVariationTableCell = useRef(null);
 
   const getUrl = () => {
     const today = new Date();
@@ -80,14 +69,6 @@ const Tab2 = ({ setIsLoading }) => {
         }
       });
 
-      daysTableCell.current.textContent = timeInterval;
-      ratesArrayleCell.current.textContent = getMedian(ratesArray);
-      dominantTableCell.current.textContent = getDominant(ratesArray);
-      standardDeviationTableCell.current.textContent =
-        getStandardDeviation(ratesArray);
-      coefficientVariationTableCell.current.textContent =
-        getCoefficientOfVariation(ratesArray);
-
       const newChartsData = [
         {
           name: "Ilość sesji zmian walutowych",
@@ -138,40 +119,6 @@ const Tab2 = ({ setIsLoading }) => {
         Aktualny kurs {firstSelectedCurrency}: {currencyValue} zł
       </div>
       <CurrencyBarChart data={chartData} />
-      <span className="table-title">Parametry statystyczne</span>
-      <table>
-        <thead>
-          <tr className="table-headers">
-            <td>Ilość dni</td>
-            <td>Mediana</td>
-            <td>Dominanta</td>
-            <td>Odchylenie standardowe</td>
-            <td>Współczynnik zmienności</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr className="table-values">
-            <td ref={daysTableCell} id="days">
-              Fetching data...
-            </td>
-            <td ref={ratesArrayleCell} id="median">
-              Fetching data...
-            </td>
-            <td ref={dominantTableCell} id="dominant">
-              Fetching data...
-            </td>
-            <td ref={standardDeviationTableCell} id="standard-deviation">
-              Fetching data...
-            </td>
-            <td
-              ref={coefficientVariationTableCell}
-              id="coefficient-of-variation"
-            >
-              Fetching data...
-            </td>
-          </tr>
-        </tbody>
-      </table>
     </>
   );
 };
