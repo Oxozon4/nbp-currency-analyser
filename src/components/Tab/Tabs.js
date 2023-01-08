@@ -1,15 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import SelectCurrency from "../SelectCurrency/SelectCurrency";
+import CurrencyBarChart from "../CurrencyBarChart/CurrencyBarChart";
+import {
+  getMedian,
+  getDominant,
+  getStandardDeviation,
+  getCoefficientOfVariation,
+} from "../../helpers/statisticParameters";
 import "./Tabs.scss";
 
 const Tabs = ({ setIsLoading }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const [timeInterval, setTimeInterval] = useState(7);
-  const [currencyCode] = useState("USD");
-  const [currencyValue, setCurrencyValue] = useState(0);
-  const [apiResponseData, setApiResponseData] = useState(null);
   const [selectedCurrency, setSelectedCurrency] = useState("USD");
+  const [apiResponseData, setApiResponseData] = useState(null);
+  const [currencyValue, setCurrencyValue] = useState(0);
+  const [chartData, setChartData] = useState(null);
+  const daysTableCell = useRef(null);
+  const ratesArrayleCell = useRef(null);
+  const dominantTableCell = useRef(null);
+  const standardDeviationTableCell = useRef(null);
+  const coefficientVariationTableCell = useRef(null);
 
   const getUrl = () => {
     const today = new Date();
@@ -31,13 +44,14 @@ const Tabs = ({ setIsLoading }) => {
     const response = await fetch(url);
     if (!response.ok) {
       toast.error(
-        "Wystąpił problem przy pobieraniu danych! Spróbuj ponownie później!"
+        "Wystąpił problem przy pobieraniu danych! Spróbuj ponownie później!",
+        { toastId: "data-fail" }
       );
     }
     const data = await response.json();
     setApiResponseData(data);
     setCurrencyValue(data.rates[data.rates.length - 1].mid.toFixed(2));
-    toast.success("Dane pobrane pomyślnie!", { id: "test" });
+    toast.success("Dane pobrane pomyślnie!", { toastId: "data-success" });
     setIsLoading(false);
   };
 
@@ -50,12 +64,41 @@ const Tabs = ({ setIsLoading }) => {
   useEffect(() => {
     if (apiResponseData) {
       console.log(apiResponseData);
-    }
-  }, [apiResponseData]);
+      const defaultValue = apiResponseData.rates[0].mid;
+      let ratesArray = [];
+      let decreases = 0;
+      let increases = 0;
+      let unchanged = 0;
+      apiResponseData.rates.forEach(({ mid }) => {
+        ratesArray.push(mid);
+        if (defaultValue === mid) {
+          unchanged += 1;
+        } else if (defaultValue > mid) {
+          decreases += 1;
+        } else if (defaultValue < mid) {
+          increases += 1;
+        }
+      });
 
-  useEffect(() => {
-    console.log(timeInterval);
-  }, [timeInterval]);
+      daysTableCell.current.textContent = timeInterval;
+      ratesArrayleCell.current.textContent = getMedian(ratesArray);
+      dominantTableCell.current.textContent = getDominant(ratesArray);
+      standardDeviationTableCell.current.textContent =
+        getStandardDeviation(ratesArray);
+      coefficientVariationTableCell.current.textContent =
+        getCoefficientOfVariation(ratesArray);
+
+      const newChartsData = [
+        {
+          name: "Ilość sesji zmian walutowych",
+          Wzrosty: increases,
+          "Bez zmian": unchanged,
+          Spadki: decreases,
+        },
+      ];
+      setChartData(newChartsData);
+    }
+  }, [apiResponseData, timeInterval]);
 
   return (
     <div className="tabs">
@@ -83,87 +126,70 @@ const Tabs = ({ setIsLoading }) => {
           tabIndex === 0 ? "tabs-content_active" : ""
         }`}
       >
-        <div>
-          Aktualny kurs {currencyCode}: {currencyValue} zł
-        </div>
-        <div>
-          <label htmlFor="time-interval-selector">
-            Wybierz przedział czasowy:
-          </label>
-          <select
-            id="time-interval-selector"
-            onChange={(e) => setTimeInterval(e.target.value)}
+        <div className="search-bar">
+          <div className="time-interval-div">
+            <label htmlFor="time-interval-selector">Przedział czasowy:</label>
+            <select
+              id="time-interval-selector"
+              onChange={(e) => setTimeInterval(e.target.value)}
+            >
+              <option value="7">1 tydzień</option>
+              <option value="14">2 tygodnie</option>
+              <option value="30">1 miesiąc</option>
+              <option value="90">1 kwartał</option>
+              <option value="180">pół roku</option>
+              <option value="365">1 rok</option>
+            </select>
+          </div>
+          <SelectCurrency
+            name="select-currency"
+            value={selectedCurrency}
+            onChange={setSelectedCurrency}
+          />
+          <button
+            onClick={(e) => getCurrencyData(e)}
+            className="tab-content1-button"
           >
-            <option value="7">1 tydzień</option>
-            <option value="14">2 tygodnie</option>
-            <option value="30">1 miesiąc</option>
-            <option value="90">1 kwartał</option>
-            <option value="180">pół roku</option>
-            <option value="365">1 rok</option>
-          </select>
+            Szukaj
+          </button>
         </div>
-        <SelectCurrency
-          name="select-currency"
-          value={selectedCurrency}
-          onChange={setSelectedCurrency}
-        />
-        <button
-          onClick={(e) => getCurrencyData(e)}
-          className="tab-content1-button"
-        >
-          Oblicz
-        </button>
-        tabela wyników
+        <div style={{ marginBottom: "40px" }}>
+          Aktualny kurs {selectedCurrency}: {currencyValue} zł
+        </div>
+        <CurrencyBarChart data={chartData} />
+        <span className="table-title">Parametry statystyczne</span>
         <table>
-          <tr>
-            <td>/</td>
-            <td>Mediana</td>
-            <td>Dominata</td>
-            <td>Odchylenie standardowe</td>
-            <td>Współczynnik zmienności</td>
-          </tr>
-          <tr>
-            <td>1 tydzień</td>
-            <td>Column 2, Row 2</td>
-            <td>Column 3, Row 2</td>
-            <td>Column 4, Row 2</td>
-            <td>Column 5, Row 2</td>
-          </tr>
-          <tr>
-            <td>2 tygodnie</td>
-            <td>Column 2, Row 3</td>
-            <td>Column 3, Row 3</td>
-            <td>Column 4, Row 3</td>
-            <td>Column 5, Row 3</td>
-          </tr>
-          <tr>
-            <td>1 miesiąc</td>
-            <td>Column 2, Row 4</td>
-            <td>Column 3, Row 4</td>
-            <td>Column 4, Row 4</td>
-            <td>Column 5, Row 4</td>
-          </tr>
-          <tr>
-            <td>1 kwartał</td>
-            <td>Column 2, Row 5</td>
-            <td>Column 3, Row 5</td>
-            <td>Column 4, Row 5</td>
-            <td>Column 5, Row 5</td>
-          </tr>
-          <tr>
-            <td>Pół roku</td>
-            <td>Column 2, Row 6</td>
-            <td>Column 3, Row 6</td>
-            <td>Column 4, Row 6</td>
-            <td>Column 5, Row 6</td>
-          </tr>
-          <tr>
-            <td>Rok</td>
-            <td>Column 2, Row 7</td>
-            <td>Column 3, Row 7</td>
-            <td>Column 4, Row 7</td>
-            <td>Column 5, Row 7</td>
-          </tr>
+          <thead>
+            <tr className="table-headers">
+              <td>Ilość dni</td>
+              <td>Mediana</td>
+              <td>Dominanta</td>
+              <td>Odchylenie standardowe</td>
+              <td>Współczynnik zmienności</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="table-values">
+              <td ref={daysTableCell} id="days">
+                Fetching data...
+              </td>
+              <td ref={ratesArrayleCell} id="median">
+                Fetching data...
+              </td>
+              <td ref={dominantTableCell} id="dominant">
+                Fetching data...
+              </td>
+              <td ref={standardDeviationTableCell} id="standard-deviation">
+                Fetching data...
+              </td>
+              <td
+                ref={coefficientVariationTableCell}
+                id="coefficient-of-variation"
+              >
+                Fetching data...
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
       <div
@@ -176,6 +202,10 @@ const Tabs = ({ setIsLoading }) => {
       </div>
     </div>
   );
+};
+
+Tabs.propTypes = {
+  setIsLoading: PropTypes.func.isRequired,
 };
 
 export default Tabs;
