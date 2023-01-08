@@ -46,7 +46,7 @@ const renderSuggestion = ({ name, alpha2: countryCode, currencyCode }) => {
   );
 };
 
-const SelectCurrency = ({ onChange, value: selectValue }) => {
+const SelectCurrency = ({ onChange, value: selectValue, order }) => {
   const [suggestions, setSuggestions] = useState([]);
   const countries = associateCurrencies(countriesWithCurrency(cc.countries));
 
@@ -87,7 +87,11 @@ const SelectCurrency = ({ onChange, value: selectValue }) => {
   };
 
   return (
-    <div className="select-currency">
+    <div
+      className={`select-currency ${
+        typeof order === 'string' ? `select-currency_${order}` : ''
+      }`}
+    >
       <label>Waluta:</label>
       <AutoSuggest
         suggestions={suggestions}
