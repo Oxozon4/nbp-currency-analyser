@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Loader from "../../components/Loader/Loader";
-import Tabs from "../../components/Tab/Tabs";
+import Tabs from "../../components/Tabs/Tabs";
 import { ToastContainer } from "react-toastify";
 import "./App.scss";
 import "react-toastify/dist/ReactToastify.css";
