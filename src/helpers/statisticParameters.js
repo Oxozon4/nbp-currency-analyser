@@ -54,3 +54,33 @@ export const getCoefficientOfVariation = (numbersArray) => {
   );
   return ((standardDeviation / mean) * 100).toFixed(3) + "%";
 };
+
+export const currencyVolatility = (currencyPrices) => {
+
+    const currencyChanges = [];
+    for (let i = 0; i < currencyPrices.length - 1; i++) {
+      const currentCurrencyPrice = currencyPrices[i];
+      const currencyChange = (currentCurrencyPrice - currencyPrices[0]) / currencyPrices[0];
+      currencyChanges.push(currencyChange);
+    }
+
+    return currencyChanges;
+  }
+  
+export const calculateCurrencyChanges = (currencyPrices) => {
+    const currencyChanges = [];
+    for (let i = 0; i < currencyPrices.length - 1; i++) {
+      const currentCurrencyPrice = currencyPrices[i];
+  
+      const currencyChange = (currentCurrencyPrice - currencyPrices[0]) / currencyPrices[0];
+  
+      currencyChanges.push(currencyChange);
+    }
+  
+    return currencyChanges;
+  }
+  
+  
+  
+  
+
