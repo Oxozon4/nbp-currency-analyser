@@ -1,4 +1,4 @@
-@import "../../assets/styles/globalStyles.scss";
+@import '../../assets/styles/globalStyles.scss';
 
 .tabs {
   display: flex;
@@ -13,17 +13,30 @@
     .tabs-list-header {
       width: 100%;
       padding: 20px;
-      font-size: map-get($font-sizes, "md");
+      font-size: map-get($font-sizes, 'md');
       font-weight: bold;
       text-align: center;
       margin-bottom: 15px;
-      border-bottom: 2px solid map-get($colors, "secondary");
+      border-bottom: 2px solid map-get($colors, 'secondary');
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
+      transition-duration: 0.3s;
+      -webkit-transition-duration: 0.3s;
+      transition-property: color;
+      -webkit-transition-property: color;
+      &:hover {
+        cursor: pointer;
+      }
 
       &.tabs-list-header_active {
-        border-bottom: 4px solid map-get($colors, "primary");
+        border-bottom: 4px solid map-get($colors, 'primary');
+        color: map-get($colors, 'primary');
+        cursor: default;
+      }
+
+      @media (max-width: 992px) {
+        font-size: map-get($font-sizes, 'sm');
       }
     }
   }
@@ -31,13 +44,14 @@
   .tabs-content {
     width: 100%;
     font-size: 1.25rem;
-    color: map-get($colors, "secondary");
+    color: map-get($colors, 'secondary');
     display: none;
+
     &.tabs-content_active {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
