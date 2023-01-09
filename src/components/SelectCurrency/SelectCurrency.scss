@@ -22,6 +22,10 @@
 .react-autosuggest__input:hover {
   background-color: map-get($colors, 'lightGrey');
   cursor: pointer;
+  transition-duration: 0.2s;
+  -webkit-transition-duration: 0.2s;
+  transition-property: all;
+  -webkit-transition-property: all;
 }
 
 .react-autosuggest__input--focused {
