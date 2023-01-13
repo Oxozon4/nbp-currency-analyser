@@ -115,7 +115,7 @@ const Tab1 = ({ setIsLoading }) => {
           </select>
         </div>
         <div className="select-currency select-currency_1">
-          <label htmlFor="time-interval-selector">Przedział czasowy:</label>
+          <label htmlFor="select-currency-selector">Waluta:</label>
           <select
             id="select-currency-selector"
             value={selectedCurrency}

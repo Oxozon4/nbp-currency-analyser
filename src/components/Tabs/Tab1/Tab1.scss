@@ -35,7 +35,8 @@ button {
     align-items: flex-end;
     margin: 1rem 0 3rem;
 
-    .time-interval-div {
+    .time-interval-div,
+    .select-currency {
       display: flex;
       flex-direction: column;
 
@@ -46,7 +47,8 @@ button {
       }
     }
 
-    #time-interval-selector {
+    #time-interval-selector,
+    #select-currency-selector {
       width: 240px;
       height: 38px;
       padding: 5px 10px;
@@ -71,6 +73,10 @@ button {
       &:focus {
         outline: none;
       }
+    }
+
+    #select-currency-selector {
+      border-radius: 0 50px 50px 0;
     }
 
     button {
