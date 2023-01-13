@@ -10,23 +10,28 @@ button {
   color: map-get($colors, 'secondary');
   letter-spacing: 0.06em;
   border: none;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   transition-duration: 0.3s;
   -webkit-transition-duration: 0.3s;
-  transition-property: box-shadow, transform;
-  -webkit-transition-property: box-shadow, transform;
+  transition-property: all;
+  -webkit-transition-property: all;
 
   &:hover {
     cursor: pointer;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    transform: scale(1.03);
-    -webkit-transform: scale(1.03);
+    background-color: map-get($colors, 'primaryHover');
   }
 }
 
 .tab1 {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   .search-bar {
     display: flex;
+    justify-content: center;
     align-items: flex-end;
     margin: 1rem 0 3rem;
 
@@ -43,7 +48,7 @@ button {
 
     #time-interval-selector {
       width: 240px;
-      height: 40px;
+      height: 38px;
       padding: 5px 10px;
       font-family: Helvetica, sans-serif;
       font-weight: 300;
@@ -51,8 +56,12 @@ button {
       border-radius: 50px 0 0 50px;
       text-align: center;
       appearance: none;
-      border: 1px solid map-get($colors, 'black');
-      border-right: none;
+      border: none;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+      transition-duration: 0.2s;
+      -webkit-transition-duration: 0.2s;
+      transition-property: all;
+      -webkit-transition-property: all;
 
       &:hover {
         background-color: map-get($colors, 'lightGrey');
@@ -80,7 +89,6 @@ button {
   .table-title {
     font-size: map-get($font-sizes, 'lg');
     font-weight: bold;
-    margin: 3rem 0 1rem;
   }
 
   .table-headers {
@@ -91,14 +99,55 @@ button {
 
   table {
     border-collapse: collapse;
-    width: 70%;
     border: 2px solid map-get($colors, 'primary');
     text-align: center;
     padding: 8px;
+    margin-top: 1rem;
   }
 
   td {
     padding: 8px;
     border: 1px solid map-get($colors, 'grey');
+  }
+
+  @media (max-width: 768px) {
+    .search-bar {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      #time-interval-selector {
+        border-radius: 50px;
+      }
+
+      button {
+        margin-top: 1rem;
+      }
+
+      .select-currency {
+        &.select-currency_1 {
+          .react-autosuggest__input {
+            border-radius: 50px;
+          }
+        }
+      }
+    }
+
+    .table-title {
+      font-size: map-get($font-sizes, 'md');
+    }
+
+    .table-headers {
+      font-size: map-get($font-sizes, 'sm');
+    }
+
+    .table-values {
+      font-size: map-get($font-sizes, 'sm');
+      font-weight: normal;
+    }
+
+    td {
+      padding: 2px;
+    }
   }
 }
