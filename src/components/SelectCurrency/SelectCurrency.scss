@@ -12,13 +12,20 @@
   font-weight: 300;
   font-size: map-get($font-sizes, 'md');
   text-align: center;
-  border: 1px solid map-get($colors, 'black');
-  border-left: 1px solid map-get($colors, 'grey');
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  @media (max-width: 768px) {
+    border-radius: 50px;
+  }
 }
 
 .react-autosuggest__input:hover {
   background-color: map-get($colors, 'lightGrey');
   cursor: pointer;
+  transition-duration: 0.2s;
+  -webkit-transition-duration: 0.2s;
+  transition-property: all;
+  -webkit-transition-property: all;
 }
 
 .react-autosuggest__input--focused {
