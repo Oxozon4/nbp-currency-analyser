@@ -107,15 +107,11 @@ button {
       }
 
       .select-currency {
-        &.select-currency_1 {
-          .react-autosuggest__input {
-            border-radius: 50px;
-          }
+        #select-currency-selector {
+          border-radius: 50px;
         }
-        &.select-currency_2 {
-          .react-autosuggest__input {
-            border-radius: 50px;
-          }
+        #select-currency-selector {
+          border-radius: 50px;
         }
       }
     }
