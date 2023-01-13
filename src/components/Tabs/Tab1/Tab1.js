@@ -15,7 +15,6 @@ const Tab1 = ({ setIsLoading }) => {
   const [timeInterval, setTimeInterval] = useState(7);
   const [selectedCurrency, setSelectedCurrency] = useState('USD');
   const [apiResponseData, setApiResponseData] = useState(null);
-  const [currencyValue, setCurrencyValue] = useState(0);
   const [chartData, setChartData] = useState(null);
   const daysTableCell = useRef(null);
   const ratesArrayleCell = useRef(null);
@@ -49,7 +48,6 @@ const Tab1 = ({ setIsLoading }) => {
     }
     const data = await response.json();
     setApiResponseData(data);
-    setCurrencyValue(data.rates[data.rates.length - 1].mid.toFixed(2));
     toast.success('Dane pobrane pomyślnie!', { toastId: 'data-success' });
     setIsLoading(false);
   };
