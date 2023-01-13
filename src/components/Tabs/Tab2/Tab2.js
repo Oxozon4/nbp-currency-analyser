@@ -163,7 +163,7 @@ const Tab2 = ({ setIsLoading }) => {
           </select>
         </div>
         <div className="select-currency select-currency_1">
-          <label htmlFor="time-interval-selector">Waluta 1:</label>
+          <label htmlFor="select-currency-selector">Waluta 1:</label>
           <select
             id="select-currency-selector"
             onChange={(e) => setFirstSelectedCurrency(e.target.value)}
@@ -177,7 +177,7 @@ const Tab2 = ({ setIsLoading }) => {
           </select>
         </div>
         <div className="select-currency select-currency_2">
-          <label htmlFor="time-interval-selector">Waluta 2:</label>
+          <label htmlFor="select-currency-selector">Waluta 2:</label>
           <select
             id="select-currency-selector"
             onChange={(e) => setSecondSelectedCurrency(e.target.value)}
