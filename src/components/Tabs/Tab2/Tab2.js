@@ -137,7 +137,7 @@ const Tab2 = ({ setIsLoading }) => {
       newChartData.push({
         name: `(${ranges[index].firstValue.toFixed(4)}, ${ranges[
           index
-        ].secondValue.toFixed(4)}) PLN`,
+        ].secondValue.toFixed(4)}) pip`,
         data: (element / sum) * 100,
       });
     });
