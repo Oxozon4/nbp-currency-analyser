@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import SelectCurrency from '../../SelectCurrency/SelectCurrency';
 import CurrencyBarChart from '../../CurrencyBarChart/CurrencyBarChart';
 import {
   getMedian,
@@ -10,6 +9,7 @@ import {
   getCoefficientOfVariation,
 } from '../../../helpers/statisticParameters';
 import './Tab1.scss';
+import { availableCurrencies } from '../../../helpers/constants';
 
 const Tab1 = ({ setIsLoading }) => {
   const [timeInterval, setTimeInterval] = useState(7);
@@ -116,21 +116,24 @@ const Tab1 = ({ setIsLoading }) => {
             <option value="365">1 rok</option>
           </select>
         </div>
-        <SelectCurrency
-          order="1"
-          name="select-currency"
-          value={selectedCurrency}
-          onChange={setSelectedCurrency}
-        />
+        <div className="select-currency select-currency_1">
+          <label htmlFor="time-interval-selector">Przedział czasowy:</label>
+          <select
+            id="select-currency-selector"
+            value={selectedCurrency}
+            onChange={(e) => setSelectedCurrency(e.target.value)}
+          >
+            {availableCurrencies.map((value) => (
+              <option value={value}>{value}</option>
+            ))}
+          </select>
+        </div>
         <button
           onClick={(e) => getCurrencyData(e)}
           className="tab-content1-button"
         >
           Szukaj
         </button>
-      </div>
-      <div style={{ marginBottom: '40px' }}>
-        Aktualny kurs {selectedCurrency}: {currencyValue} zł
       </div>
       <CurrencyBarChart data={chartData} variant="primary" />
       <span className="table-title">Parametry statystyczne</span>
