@@ -5,6 +5,7 @@ const Header = () => {
   return (
     <div className="header-container">
       <span>SEMAFOR-APP</span>
+      <button onClick={null}>Odśwież</button>
     </div>
   );
 };
