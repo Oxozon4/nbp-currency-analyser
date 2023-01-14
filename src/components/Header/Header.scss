@@ -1,0 +1,13 @@
+@import '../../assets/styles/globalStyles.scss';
+
+.header-container {
+  width: 100%;
+  padding: 1rem;
+  background-color: map-get($colors, 'primary');
+
+  span {
+    color: map-get($colors, 'white');
+    font-size: 2rem;
+    font-weight: bold;
+  }
+}
