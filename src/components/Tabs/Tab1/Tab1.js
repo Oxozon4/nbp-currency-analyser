@@ -55,12 +55,17 @@ const Tab1 = ({ setIsLoading }) => {
   useEffect(() => {
     setIsLoading(true);
     getCurrencyData();
+
+    document.addEventListener('refreshAction', getCurrencyData);
+
+    return () => {
+      document.removeEventListener('refreshAction', getCurrencyData);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (apiResponseData) {
-      console.log(apiResponseData);
       const defaultValue = apiResponseData.rates[0].mid;
       let ratesArray = [];
       let decreases = 0;
@@ -122,7 +127,9 @@ const Tab1 = ({ setIsLoading }) => {
             onChange={(e) => setSelectedCurrency(e.target.value)}
           >
             {availableCurrencies.map((value) => (
-              <option value={value}>{value}</option>
+              <option key={`option-${value}`} value={value}>
+                {value}
+              </option>
             ))}
           </select>
         </div>
