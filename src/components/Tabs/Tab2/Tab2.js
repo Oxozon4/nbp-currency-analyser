@@ -168,12 +168,13 @@ const Tab2 = ({ setIsLoading }) => {
     <div className="tab2">
       <div className="search-bar">
         <div className="select-currency select-currency_0">
-          <label htmlFor="time-interval-selector">Od daty</label>
+          <label htmlFor="date-picker-selector">Wybierz dzień</label>
           <DatePicker
             selected={startDate}
             onChange={(date) => setStartDate(date)}
             locale="pl"
             maxDate={maxDate}
+            id="date-picker-selector"
           />
         </div>
         <div className="time-interval-div">

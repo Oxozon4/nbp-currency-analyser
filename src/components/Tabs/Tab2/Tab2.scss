@@ -48,14 +48,15 @@ button {
     }
 
     #time-interval-selector,
-    #select-currency-selector {
+    #select-currency-selector,
+    #date-picker-selector {
       width: 240px;
       height: 38px;
       padding: 5px 10px;
       font-family: Helvetica, sans-serif;
       font-weight: 300;
       font-size: map-get($font-sizes, 'md');
-      border-radius: 50px 0 0 50px;
+      border-radius: 0;
       text-align: center;
       appearance: none;
       border: none;
@@ -75,10 +76,9 @@ button {
       }
     }
 
-    .select-currency_1 {
-      #select-currency-selector {
-        border-radius: 0;
-      }
+    #date-picker-selector {
+      border-radius: 50px 0 0 50px;
+      padding: 0;
     }
 
     .select-currency_2 {
@@ -102,14 +102,15 @@ button {
         border-radius: 50px;
       }
 
+      #date-picker-selector {
+        border-radius: 50px;
+      }
+
       button {
         margin-top: 1rem;
       }
 
       .select-currency {
-        #select-currency-selector {
-          border-radius: 50px;
-        }
         #select-currency-selector {
           border-radius: 50px;
         }
