@@ -14,7 +14,6 @@ import './CurrencyBarChart.scss';
 const CurrencyBarChart = ({ data, variant, title }) => {
   const chartData = data || [
     {
-      name: 'Ilość sesji zmian walutowych',
       Wzrosty: 4000,
       'Bez zmian': 2400,
       Spadki: 2400,

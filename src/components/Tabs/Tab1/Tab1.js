@@ -92,7 +92,6 @@ const Tab1 = ({ setIsLoading }) => {
 
       const newChartsData = [
         {
-          name: 'Ilość sesji zmian walutowych',
           Wzrosty: increases,
           'Bez zmian': unchanged,
           Spadki: decreases,
