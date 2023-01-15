@@ -66,21 +66,21 @@ const Tab1 = ({ setIsLoading }) => {
 
   useEffect(() => {
     if (apiResponseData) {
-      const defaultValue = apiResponseData.rates[0].mid;
       let ratesArray = [];
       let decreases = 0;
       let increases = 0;
       let unchanged = 0;
-      apiResponseData.rates.forEach(({ mid }) => {
+      apiResponseData.rates.forEach(({ mid }, index) => {
         ratesArray.push(mid);
-        if (defaultValue === mid) {
+        if (index > 0 && apiResponseData.rates[index].mid === apiResponseData.rates[index - 1].mid) {
           unchanged += 1;
-        } else if (defaultValue > mid) {
+        } else if (index > 0 && apiResponseData.rates[index - 1].mid > mid) {
           decreases += 1;
-        } else if (defaultValue < mid) {
+        } else if (index > 0 && apiResponseData.rates[index - 1].mid < mid) {
           increases += 1;
         }
       });
+      
 
       daysTableCell.current.textContent = timeInterval;
       ratesArrayleCell.current.textContent = getMedian(ratesArray);
