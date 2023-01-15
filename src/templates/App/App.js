@@ -1,9 +1,10 @@
-import { useState } from "react";
-import Loader from "../../components/Loader/Loader";
-import Tabs from "../../components/Tabs/Tabs";
-import { ToastContainer } from "react-toastify";
-import "./App.scss";
-import "react-toastify/dist/ReactToastify.css";
+import { useState } from 'react';
+import Loader from '../../components/Loader/Loader';
+import Header from '../../components/Header/Header';
+import Tabs from '../../components/Tabs/Tabs';
+import { ToastContainer } from 'react-toastify';
+import './App.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +24,7 @@ const App = () => {
         pauseOnHover
       />
       <div className="app" data-testid="app">
+        <Header />
         <Tabs setIsLoading={setIsLoading} />
       </div>
     </>

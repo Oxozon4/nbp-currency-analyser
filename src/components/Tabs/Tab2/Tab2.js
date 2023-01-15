@@ -62,6 +62,12 @@ const Tab2 = ({ setIsLoading }) => {
 
   useEffect(() => {
     getAllCurrencyData();
+
+    document.addEventListener('refreshAction', getAllCurrencyData);
+
+    return () => {
+      document.removeEventListener('refreshAction', getAllCurrencyData);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -69,8 +75,6 @@ const Tab2 = ({ setIsLoading }) => {
     if (!firstCurrencyApiResponseData || !secondCurrencyApiResponseData) {
       return;
     }
-    console.log(firstCurrencyApiResponseData);
-    console.log(secondCurrencyApiResponseData);
 
     const firstRatesArray = [];
     const secondRatesArray = [];
@@ -172,7 +176,9 @@ const Tab2 = ({ setIsLoading }) => {
             {availableCurrencies
               .filter((value) => value !== secondSelectedCurrency)
               .map((value) => (
-                <option value={value}>{value}</option>
+                <option key={`option-${value}`} value={value}>
+                  {value}
+                </option>
               ))}
           </select>
         </div>
@@ -186,7 +192,9 @@ const Tab2 = ({ setIsLoading }) => {
             {availableCurrencies
               .filter((value) => value !== firstSelectedCurrency)
               .map((value) => (
-                <option value={value}>{value}</option>
+                <option key={`option-${value}-2`} value={value}>
+                  {value}
+                </option>
               ))}
           </select>
         </div>
