@@ -66,7 +66,6 @@ const Tab1 = ({ setIsLoading }) => {
 
   useEffect(() => {
     if (apiResponseData) {
-      const defaultValue = apiResponseData.rates[0].mid;
       let ratesArray = [];
       let decreases = 0;
       let increases = 0;
