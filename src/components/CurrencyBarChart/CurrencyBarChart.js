@@ -30,7 +30,15 @@ const CurrencyBarChart = ({ data, variant, title }) => {
           </XAxis>
           <YAxis
             tickFormatter={variant !== 'primary' ? (value) => `${value}%` : ''}
-          />
+          >
+            {variant === 'primary' && (
+              <Label
+                value="Ilość sesji zmian walutowych"
+                position="outside"
+                angle="-90"
+              />
+            )}
+          </YAxis>
           {variant === 'primary' ? (
             <>
               <Tooltip />
