@@ -2,8 +2,12 @@ import { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import CurrencyBarChart from '../../CurrencyBarChart/CurrencyBarChart';
-import './Tab2.scss';
 import { availableCurrencies } from '../../../helpers/constants';
+import DatePicker from 'react-datepicker';
+import { registerLocale } from 'react-datepicker';
+import './Tab2.scss';
+import 'react-datepicker/dist/react-datepicker.css';
+import pl from 'date-fns/locale/pl';
 
 const Tab2 = ({ setIsLoading }) => {
   const [timeInterval, setTimeInterval] = useState(90);
@@ -14,11 +18,18 @@ const Tab2 = ({ setIsLoading }) => {
   const [secondCurrencyApiResponseData, setSecondCurrencyApiResponseData] =
     useState(null);
   const [chartData, setChartData] = useState(null);
+  const maxDate = useMemo(() => {
+    const maxDate = new Date();
+    maxDate.setDate(maxDate.getDate() - timeInterval);
+    return maxDate;
+  }, [timeInterval]);
+  const [startDate, setStartDate] = useState(maxDate);
   const chartLabel = useMemo(
     () => `Rozkład zmian ${firstSelectedCurrency} i ${secondSelectedCurrency}`,
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [firstCurrencyApiResponseData, secondCurrencyApiResponseData]
   );
+  registerLocale('pl', pl);
 
   const getUrl = (currencyCode) => {
     const today = new Date();
@@ -156,11 +167,21 @@ const Tab2 = ({ setIsLoading }) => {
   return (
     <div className="tab2">
       <div className="search-bar">
+        <div className="select-currency select-currency_0">
+          <label htmlFor="time-interval-selector">Od daty</label>
+          <DatePicker
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+            locale="pl"
+            maxDate={maxDate}
+          />
+        </div>
         <div className="time-interval-div">
           <label htmlFor="time-interval-selector">Przedział czasowy:</label>
           <select
             id="time-interval-selector"
             onChange={(e) => setTimeInterval(e.target.value)}
+            value={timeInterval}
           >
             <option value="30">1 miesiąc</option>
             <option value="90">1 kwartał</option>
