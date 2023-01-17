@@ -12,18 +12,10 @@ import {
 import './CurrencyBarChart.scss';
 
 const CurrencyBarChart = ({ data, variant, title }) => {
-  const chartData = data || [
-    {
-      name: 'Ilość sesji zmian walutowych',
-      Wzrosty: 4000,
-      'Bez zmian': 2400,
-      Spadki: 2400,
-    },
-  ];
   return (
     <div className="bar-chart">
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart width={500} height={300} data={chartData}>
+        <BarChart width={500} height={300} data={data}>
           <XAxis dataKey="name" tick={{ fontSize: 15 }}>
             {variant !== 'primary' && (
               <Label value={title} position="insideBottom" offset={-15} />
@@ -31,7 +23,15 @@ const CurrencyBarChart = ({ data, variant, title }) => {
           </XAxis>
           <YAxis
             tickFormatter={variant !== 'primary' ? (value) => `${value}%` : ''}
-          />
+          >
+            {variant === 'primary' && (
+              <Label
+                value="Ilość sesji zmian walutowych"
+                position="outside"
+                angle="-90"
+              />
+            )}
+          </YAxis>
           {variant === 'primary' ? (
             <>
               <Tooltip />
