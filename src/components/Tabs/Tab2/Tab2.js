@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
 import CurrencyBarChart from '../../CurrencyBarChart/CurrencyBarChart';
-import { availableCurrencies } from '../../../helpers/constants';
 import DatePicker from 'react-datepicker';
+import { availableCurrencies } from '../../../helpers/constants';
+import { toast } from 'react-toastify';
 import { registerLocale } from 'react-datepicker';
 import './Tab2.scss';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -32,17 +32,22 @@ const Tab2 = ({ setIsLoading }) => {
   registerLocale('pl', pl);
 
   const getUrl = (currencyCode) => {
-    const today = new Date();
-    const todayDateString = `${today.getFullYear()}-${String(
-      today.getMonth() + 1
-    ).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    let startDateClone = new Date(startDate.getTime());
+
     const previousDate = new Date(
-      today.setDate(today.getDate() - timeInterval)
+      startDateClone.setDate(startDateClone.getDate())
     );
     const previousDateString = `${previousDate.getFullYear()}-${String(
       previousDate.getMonth() + 1
     ).padStart(2, '0')}-${String(previousDate.getDate()).padStart(2, '0')}`;
-    const url = `//api.nbp.pl/api/exchangerates/rates/a/${currencyCode}/${previousDateString}/${todayDateString}/`;
+    startDateClone = new Date(startDate.getTime());
+    const toDate = new Date(
+      startDateClone.setDate(startDateClone.getDate() + Number(timeInterval))
+    );
+    const toDateString = `${toDate.getFullYear()}-${String(
+      toDate.getMonth() + 1
+    ).padStart(2, '0')}-${String(toDate.getDate()).padStart(2, '0')}`;
+    const url = `//api.nbp.pl/api/exchangerates/rates/a/${currencyCode}/${previousDateString}/${toDateString}/`;
     return url;
   };
 
@@ -170,6 +175,7 @@ const Tab2 = ({ setIsLoading }) => {
         <div className="select-currency select-currency_0">
           <label htmlFor="date-picker-selector">Wybierz dzień</label>
           <DatePicker
+            dateFormat="yyyy-MM-dd"
             selected={startDate}
             onChange={(date) => setStartDate(date)}
             locale="pl"

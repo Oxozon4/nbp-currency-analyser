@@ -72,7 +72,11 @@ const Tab1 = ({ setIsLoading }) => {
       let unchanged = 0;
       apiResponseData.rates.forEach(({ mid }, index) => {
         ratesArray.push(mid);
-        if (index > 0 && apiResponseData.rates[index].mid === apiResponseData.rates[index - 1].mid) {
+        if (
+          index > 0 &&
+          apiResponseData.rates[index].mid ===
+            apiResponseData.rates[index - 1].mid
+        ) {
           unchanged += 1;
         } else if (index > 0 && apiResponseData.rates[index - 1].mid > mid) {
           decreases += 1;
@@ -80,7 +84,6 @@ const Tab1 = ({ setIsLoading }) => {
           increases += 1;
         }
       });
-      
 
       daysTableCell.current.textContent = timeInterval;
       ratesArrayleCell.current.textContent = getMedian(ratesArray);
