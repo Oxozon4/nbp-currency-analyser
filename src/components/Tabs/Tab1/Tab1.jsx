@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
+import { useApi } from '../../../hooks/useApi';
+import { useCurrencyChartData } from '../../../hooks/useCurrencyChartData';
 import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
 import CurrencyBarChart from '../../CurrencyBarChart/CurrencyBarChart';
 import {
   getMedian,
@@ -14,95 +15,46 @@ import { availableCurrencies } from '../../../helpers/constants';
 const Tab1 = ({ setIsLoading }) => {
   const [timeInterval, setTimeInterval] = useState(7);
   const [selectedCurrency, setSelectedCurrency] = useState('USD');
-  const [apiResponseData, setApiResponseData] = useState(null);
-  const [chartData, setChartData] = useState(null);
+  const { responseData, callApi } = useApi(
+    selectedCurrency,
+    timeInterval,
+    setIsLoading,
+    null
+  );
+  const { chartData, ratesArray } = useCurrencyChartData(responseData);
   const daysTableCell = useRef(null);
   const ratesArrayleCell = useRef(null);
   const dominantTableCell = useRef(null);
   const standardDeviationTableCell = useRef(null);
   const coefficientVariationTableCell = useRef(null);
 
-  const getUrl = () => {
-    const today = new Date();
-    const todayDateString = `${today.getFullYear()}-${String(
-      today.getMonth() + 1
-    ).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-    const previousDate = new Date(
-      today.setDate(today.getDate() - timeInterval)
-    );
-    const previousDateString = `${previousDate.getFullYear()}-${String(
-      previousDate.getMonth() + 1
-    ).padStart(2, '0')}-${String(previousDate.getDate()).padStart(2, '0')}`;
-    const url = `//api.nbp.pl/api/exchangerates/rates/a/${selectedCurrency}/${previousDateString}/${todayDateString}/`;
-    return url;
-  };
-
-  const getCurrencyData = async () => {
-    const url = getUrl();
-    const response = await fetch(url);
-    if (!response.ok) {
-      toast.error(
-        'Wystąpił problem przy pobieraniu danych! Spróbuj ponownie później!',
-        { toastId: 'data-fail' }
-      );
-    }
-    const data = await response.json();
-    setApiResponseData(data);
-    toast.success('Dane pobrane pomyślnie!', { toastId: 'data-success' });
-    setIsLoading(false);
-  };
-
   useEffect(() => {
-    setIsLoading(true);
-    getCurrencyData();
-
-    document.addEventListener('refreshAction', getCurrencyData);
+    const onRefreshDataClickEvent = () => {
+      callApi(selectedCurrency, timeInterval, null);
+    };
+    document.addEventListener('refreshAction', onRefreshDataClickEvent);
 
     return () => {
-      document.removeEventListener('refreshAction', getCurrencyData);
+      document.removeEventListener('refreshAction', onRefreshDataClickEvent);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [callApi, selectedCurrency, timeInterval]);
 
   useEffect(() => {
-    if (apiResponseData) {
-      let ratesArray = [];
-      let decreases = 0;
-      let increases = 0;
-      let unchanged = 0;
-      apiResponseData.rates.forEach(({ mid }, index) => {
-        ratesArray.push(mid);
-        if (
-          index > 0 &&
-          apiResponseData.rates[index].mid ===
-            apiResponseData.rates[index - 1].mid
-        ) {
-          unchanged += 1;
-        } else if (index > 0 && apiResponseData.rates[index - 1].mid > mid) {
-          decreases += 1;
-        } else if (index > 0 && apiResponseData.rates[index - 1].mid < mid) {
-          increases += 1;
-        }
-      });
-
-      daysTableCell.current.textContent = timeInterval;
-      ratesArrayleCell.current.textContent = getMedian(ratesArray);
-      dominantTableCell.current.textContent = getDominant(ratesArray);
-      standardDeviationTableCell.current.textContent =
-        getStandardDeviation(ratesArray);
-      coefficientVariationTableCell.current.textContent =
-        getCoefficientOfVariation(ratesArray);
-
-      const newChartsData = [
-        {
-          Wzrosty: increases,
-          'Bez zmian': unchanged,
-          Spadki: decreases,
-        },
-      ];
-      setChartData(newChartsData);
+    if (!ratesArray) {
+      return;
     }
-  }, [apiResponseData, timeInterval]);
+    daysTableCell.current.textContent = timeInterval;
+    ratesArrayleCell.current.textContent = getMedian(ratesArray);
+    dominantTableCell.current.textContent = getDominant(ratesArray);
+    standardDeviationTableCell.current.textContent =
+      getStandardDeviation(ratesArray);
+    coefficientVariationTableCell.current.textContent =
+      getCoefficientOfVariation(ratesArray);
+  }, [ratesArray, timeInterval]);
+
+  const onClickHandler = () => {
+    callApi(selectedCurrency, timeInterval, null);
+  };
 
   return (
     <div className="tab1">
@@ -135,10 +87,7 @@ const Tab1 = ({ setIsLoading }) => {
             ))}
           </select>
         </div>
-        <button
-          onClick={(e) => getCurrencyData(e)}
-          className="tab-content1-button"
-        >
+        <button onClick={onClickHandler} className="tab-content1-button">
           Szukaj
         </button>
       </div>
