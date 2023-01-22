@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 
-export const useDistributionChartData = (firstDataSet, SecondDataSet) => {
+export const useDistributionChartData = (firstDataSet, secondDataSet) => {
   const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
-    if (!firstDataSet || !SecondDataSet) {
+    if (!firstDataSet || !secondDataSet) {
       return;
     }
 
@@ -17,7 +17,7 @@ export const useDistributionChartData = (firstDataSet, SecondDataSet) => {
     firstDataSet.rates.forEach(({ mid }) => {
       firstRatesArray.push(mid);
     });
-    SecondDataSet.rates.forEach(({ mid }) => {
+    secondDataSet.rates.forEach(({ mid }) => {
       secondRatesArray.push(mid);
     });
     firstRatesArray.forEach((firstRate, index) => {
@@ -79,7 +79,7 @@ export const useDistributionChartData = (firstDataSet, SecondDataSet) => {
     });
 
     setChartData(newChartData);
-  }, [firstDataSet, SecondDataSet]);
+  }, [firstDataSet, secondDataSet]);
 
   return chartData;
 };

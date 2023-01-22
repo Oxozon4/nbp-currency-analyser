@@ -1,3 +1,16 @@
+# Project Information
+## Backlog url
+* https://github.com/orgs/IIS-ZPI/projects/5/views/1
+## Live site url
+* https://iis-zpi.github.io/ZPI2022_zaoczni_Semafor/
+## Requirements
+* NodeJS v19.3.0
+* npm v9.3.0
+## Implementation
+* Project was generated with Create React App
+
+---
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
