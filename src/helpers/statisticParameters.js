@@ -52,35 +52,31 @@ export const getCoefficientOfVariation = (numbersArray) => {
     numbersArray.map((x) => Math.pow(x - mean, 2)).reduce((a, b) => a + b) /
       (numbersArray.length - 1)
   );
-  return ((standardDeviation / mean) * 100).toFixed(3) + "%";
+  return ((standardDeviation / mean) * 100).toFixed(3) + '%';
 };
 
 export const currencyVolatility = (currencyPrices) => {
-
-    const currencyChanges = [];
-    for (let i = 0; i < currencyPrices.length - 1; i++) {
-      const currentCurrencyPrice = currencyPrices[i];
-      const currencyChange = (currentCurrencyPrice - currencyPrices[0]) / currencyPrices[0];
-      currencyChanges.push(currencyChange);
-    }
-
-    return currencyChanges;
+  const currencyChanges = [];
+  for (let i = 0; i < currencyPrices.length - 1; i++) {
+    const currentCurrencyPrice = currencyPrices[i];
+    const currencyChange =
+      (currentCurrencyPrice - currencyPrices[0]) / currencyPrices[0];
+    currencyChanges.push(currencyChange);
   }
-  
+
+  return currencyChanges;
+};
+
 export const calculateCurrencyChanges = (currencyPrices) => {
-    const currencyChanges = [];
-    for (let i = 0; i < currencyPrices.length - 1; i++) {
-      const currentCurrencyPrice = currencyPrices[i];
-  
-      const currencyChange = (currentCurrencyPrice - currencyPrices[0]) / currencyPrices[0];
-  
-      currencyChanges.push(currencyChange);
-    }
-  
-    return currencyChanges;
-  }
-  
-  
-  
-  
+  const currencyChanges = [];
+  for (let i = 0; i < currencyPrices.length - 1; i++) {
+    const currentCurrencyPrice = currencyPrices[i];
 
+    const currencyChange =
+      (currentCurrencyPrice - currencyPrices[0]) / currencyPrices[0];
+
+    currencyChanges.push(currencyChange);
+  }
+
+  return currencyChanges;
+};
